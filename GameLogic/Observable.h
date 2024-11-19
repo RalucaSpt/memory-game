@@ -11,6 +11,7 @@ enum UserChoice : signed char
 class Observable
 {
 public:
+	Observable() = default;
 	void AddListener(IGameListener* listener);
 	void RemoveListener(IGameListener* listener);
 

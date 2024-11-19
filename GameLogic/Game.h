@@ -1,19 +1,29 @@
 #pragma once
 #include <random>
 #include "Observable.h"
+#define DEFAULT_SEQUENCE_LENGHT 8;
 
-class Game : public Observable
+
+namespace gameLogic
 {
-public:
-	void StartGame();
-	void MakeMove();
 
-private:
-	std::vector<unsigned char> GetMoveSequence();
-	bool VerifyPlayerMoveSequence(std::vector<unsigned char> playerSequence);
+	class Game : public Observable
+	{
+	public:
+		Game();
 
-private:
-	std::vector<unsigned char> m_moveSequence;
+		void StartGame();
+		void MakeMove();
 
-};
+		std::vector<unsigned char> GetMoveSequence();
+		bool VerifyPlayerMoveSequence(unsigned char playerMove);
 
+	private:
+		int m_sequenceLenght;
+		std::vector<unsigned char> m_moveSequence;
+		
+		
+		int m_playerMoveNumber;
+	};
+
+}

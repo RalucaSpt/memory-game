@@ -1,4 +1,6 @@
 #pragma once
+
+//this will later be inplemented by the UI, which will become the observer
 class IGameListener
 {
 public:
