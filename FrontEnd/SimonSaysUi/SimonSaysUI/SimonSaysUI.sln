@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.11.35312.102
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "SimonSaysUI", "SimonSaysUI\SimonSaysUI.vcxproj", "{0FA88A82-5073-4888-9E31-24ADCC1AA339}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0FA88A82-5073-4888-9E31-24ADCC1AA339}.Debug|x64.ActiveCfg = Debug|x64
+		{0FA88A82-5073-4888-9E31-24ADCC1AA339}.Debug|x64.Build.0 = Debug|x64
+		{0FA88A82-5073-4888-9E31-24ADCC1AA339}.Release|x64.ActiveCfg = Release|x64
+		{0FA88A82-5073-4888-9E31-24ADCC1AA339}.Release|x64.Build.0 = Release|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {F8D4D6E9-36B3-4B0C-AEF9-CFD8F4B8958D}
+	EndGlobalSection
+EndGlobal
