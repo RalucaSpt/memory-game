@@ -96,11 +96,15 @@
     <QtUic Include="SimonSaysUI.ui" />
     <QtMoc Include="SimonSaysUI.h" />
     <ClCompile Include="Buttons.cpp" />
+    <ClCompile Include="ScoreBoard.cpp" />
     <ClCompile Include="SimonSaysUI.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="Buttons.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ScoreBoard.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
