@@ -38,4 +38,3 @@ void Scoreboard::incrementScore() {
 void Scoreboard::incrementHighScore() {
 	setHighScore(highScore + 1);
 }
-

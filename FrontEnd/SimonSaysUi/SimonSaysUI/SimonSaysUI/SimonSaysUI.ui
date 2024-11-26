@@ -13,6 +13,19 @@
   <property name="windowTitle">
    <string>SimonSaysUI</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QPushButton {
+    background-color: rgb(85, 255, 0); 
+    border: 1px solid #4CAF50;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+QPushButton:hover {
+    background-color: rgb(50, 150, 0); 
+}
+</string>
+  </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <item row="0" column="0">
@@ -55,7 +68,7 @@
       </property>
      </widget>
     </item>
-    <item row="5" column="0" colspan="2">
+    <item row="4" column="0" colspan="2">
      <layout class="QGridLayout" name="gridLayout">
       <property name="rightMargin">
        <number>9</number>
@@ -71,8 +84,19 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color:rgb(255, 255, 0);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+QPushButton:hover {
+    background-color: rgb(184, 184, 0)
+}</string>
+        </property>
         <property name="text">
-         <string>yellowButton</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -84,8 +108,23 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color:rgb(170, 0, 0);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+QPushButton:hover {
+    background-color: rgb(126, 0, 0)
+} 
+</string>
+        </property>
         <property name="text">
-         <string>redButton</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -108,8 +147,19 @@
           <bold>false</bold>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color:rgb(0, 170, 255);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+QPushButton:hover {
+    background-color: rgb(0, 112, 168)
+} </string>
+        </property>
         <property name="text">
-         <string>blueButton</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -121,8 +171,19 @@
           <verstretch>0</verstretch>
          </sizepolicy>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QPushButton {
+    background-color:rgb(85, 255, 0);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+QPushButton:hover {
+    background-color: rgb(48, 144, 0)
+}</string>
+        </property>
         <property name="text">
-         <string>greenButton</string>
+         <string/>
         </property>
        </widget>
       </item>
@@ -180,7 +241,7 @@
       </property>
      </widget>
     </item>
-    <item row="3" column="0" colspan="2">
+    <item row="2" column="0" colspan="2">
      <spacer name="verticalSpacer">
       <property name="orientation">
        <enum>Qt::Orientation::Vertical</enum>
@@ -211,13 +272,6 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignmentFlag::AlignCenter</set>
-      </property>
-     </widget>
-    </item>
-    <item row="2" column="0">
-     <widget class="QPushButton" name="incrementScoreButton">
-      <property name="text">
-       <string>PushButton</string>
       </property>
      </widget>
     </item>
