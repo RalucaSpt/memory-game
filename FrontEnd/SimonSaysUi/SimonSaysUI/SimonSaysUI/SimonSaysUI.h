@@ -1,16 +1,19 @@
-#pragma once
+﻿#ifndef SIMONSAYSUI_H
+#define SIMONSAYSUI_H
 
-#include <QtWidgets/QMainWindow>
+#include <QMainWindow>
 #include "ui_SimonSaysUI.h"
+#include "Buttons.h"
 
-class SimonSaysUI : public QMainWindow
-{
+class SimonSaysUI : public QMainWindow {
     Q_OBJECT
 
-public:
-    SimonSaysUI(QWidget *parent = nullptr);
-    ~SimonSaysUI();
-
 private:
-    Ui::SimonSaysUIClass ui;
+    Ui::SimonSaysUIClass ui;       // Interfața generată din fișierul .ui
+    Buttons* buttons;         // Instanța clasei Buttons
+
+public:
+    explicit SimonSaysUI(QWidget* parent = nullptr);
 };
+
+#endif // SIMONSAYSUI_H
