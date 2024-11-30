@@ -3,6 +3,7 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_GameUI.h"
 #include "ScoreBoard.h"
+#include "..\GameLogic\Game.h"
 
 class GameUI : public QMainWindow
 {
@@ -16,7 +17,8 @@ private:
     Ui::GameUIClass ui;
 
 	Scoreboard* m_scoreboard;
-	
+	gameLogic::Game* m_game;
+
 
 	QPushButton* m_redButton;
 	QPushButton* m_yellowButton;
