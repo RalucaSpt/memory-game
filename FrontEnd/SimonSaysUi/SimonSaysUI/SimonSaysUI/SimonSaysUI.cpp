@@ -27,7 +27,7 @@ SimonSaysUI::SimonSaysUI(QWidget* parent)
     : QMainWindow(parent), buttons(nullptr) {
     // Inițializează interfața grafică definită în .ui
     ui.setupUi(this);
-
+	setupConnections();
     // Configurează fereastra
     setWindowTitle("Simon Says");
     resize(800, 800);

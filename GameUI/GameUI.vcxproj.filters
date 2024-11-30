@@ -23,35 +23,29 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <QtRcc Include="SimonSaysUI.qrc">
+    <QtRcc Include="GameUI.qrc">
       <Filter>Resource Files</Filter>
     </QtRcc>
-    <QtUic Include="SimonSaysUI.ui">
+    <QtUic Include="GameUI.ui">
       <Filter>Form Files</Filter>
     </QtUic>
-    <QtMoc Include="SimonSaysUI.h">
+    <QtMoc Include="GameUI.h">
       <Filter>Header Files</Filter>
     </QtMoc>
-    <ClCompile Include="SimonSaysUI.cpp">
+    <ClCompile Include="GameUI.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Buttons.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Scoreboard.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="ScoreBoard.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <QtMoc Include="Buttons.h">
-      <Filter>Header Files</Filter>
-    </QtMoc>
-    <QtMoc Include="Scoreboard.h">
+    <QtMoc Include="ScoreBoard.h">
       <Filter>Header Files</Filter>
     </QtMoc>
   </ItemGroup>

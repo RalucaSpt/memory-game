@@ -1,7 +1,7 @@
 #pragma once
 #include <random>
 #include "Observable.h"
-#define DEFAULT_SEQUENCE_LENGHT 8;
+#include "Color.h"
 
 
 namespace gameLogic
@@ -12,18 +12,18 @@ namespace gameLogic
 	public:
 		Game();
 
-		void StartGame();
+		void StartNewGame();
 		void MakeMove();
 
-		std::vector<unsigned char> GetMoveSequence();
-		bool VerifyPlayerMoveSequence(unsigned char playerMove);
+		std::vector<Color> RandomColorGenerator();
+		bool VerifyPlayerMoveSequence(Color playerMove);
+		//bool CheckNewRecord();
 
 	private:
-		int m_sequenceLenght;
-		std::vector<unsigned char> m_moveSequence;
-		
-		
-		int m_playerMoveNumber;
+		int m_level;
+		std::vector<Color> m_moveSequence;
+		int m_maxScore;
+		int m_playerCurrentMoveNumber;
 	};
 
 }

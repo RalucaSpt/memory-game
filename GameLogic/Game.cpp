@@ -3,14 +3,14 @@
 namespace gameLogic
 {
 	Game::Game() :
-		Observable()
+		Observable(), m_playerCurrentMoveNumber{ 0 }, m_level {0},m_maxScore{0}
 	{
-		m_playerMoveNumber = DEFAULT_SEQUENCE_LENGHT;
 	}
 
-	void Game::StartGame()
+	void Game::StartNewGame()
 	{
-		m_playerMoveNumber = 0;
+		m_playerCurrentMoveNumber = 0;
+		m_level = 1;
 		NotifyAll(UserChoice::STARTGAME);
 	}
 
@@ -19,24 +19,27 @@ namespace gameLogic
 		NotifyAll(UserChoice::MAKEMOVE);
 	}
 
-	std::vector<unsigned char> Game::GetMoveSequence()
+	std::vector<Color> Game::RandomColorGenerator()
 	{
 		std::random_device rd;
 		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> distrib(1, 8);
+		std::uniform_int_distribution<> distrib(1, 4);
 
-		m_moveSequence.push_back(distrib(gen));
+		for (int i = 0; i < m_level; i++)
+		{
+			m_moveSequence.push_back((Color)distrib(gen));
+		}
 		return m_moveSequence;
 	}
 
-	bool Game::VerifyPlayerMoveSequence(unsigned char playerMove)
+	bool Game::VerifyPlayerMoveSequence(Color playerMove)
 	{
-		if (m_moveSequence[m_playerMoveNumber] == playerMove)
+		if (m_moveSequence[m_playerCurrentMoveNumber] == playerMove)
 		{
+			m_playerCurrentMoveNumber+=1;
 			return true;
 		}
 		return false;
 	}
-
 
 }
