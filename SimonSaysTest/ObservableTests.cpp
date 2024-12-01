@@ -2,6 +2,7 @@
 #include <gmock/gmock.h>
 #include "Observable.h"
 #include "MockGameListener.h"
+#include "Game.h"
 
 using ::testing::Exactly;
 using ::testing::AtLeast;
@@ -60,6 +61,21 @@ TEST(ObservableTest, NotifyMultipleListeners_CallsAllListeners) {
 
     observable.NotifyOnPressStart();
 }
+
+TEST(GameTest, StartNewGame_NotifiesListeners) {
+    Game game;
+    MockGameListener mockListener;
+
+    // Adăugăm listener-ul la joc
+    game.AddListener(&mockListener);
+
+    // Setăm așteptarea ca metoda OnPressStart să fie apelată
+    EXPECT_CALL(mockListener, OnPressStart()).Times(Exactly(1));
+
+    // Pornim un joc nou
+    game.StartNewGame();
+}
+
 
 TEST(ObservableTest, RemovedListener_IsNotNotified) {
     Observable observable;
