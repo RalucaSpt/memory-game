@@ -1,80 +1,142 @@
-#include "GameUI.h"
+﻿#include "GameUI.h"
+#include <QTimer>
+#include <QMessageBox>
 
-GameUI::GameUI(QWidget* parent)
-	: QMainWindow(parent)
+GameUI::GameUI(gameLogic::Game* game, QWidget* parent)
+    : QMainWindow(parent), m_game(game)
 {
-	ui.setupUi(this);
-	m_redButton = ui.redButton;
-	m_yellowButton = ui.yellowButton;
-	m_blueButton = ui.greenButton;
-	m_greenButton = ui.blueButton;
-	m_scoreboard = new Scoreboard(0, 0, this);
+    ui.setupUi(this);
+    m_game->AddListener(this);
 
-	connect(m_blueButton, &QPushButton::clicked, this, []() {
-		qDebug() << "Blue button clicked!";
-		});
+    for (auto& button : { ui.redButton, ui.blueButton, ui.greenButton, ui.yellowButton })
+    {
+        connect(button, &QPushButton::clicked, this, &GameUI::handleButtonPress);
+    }
 
-	connect(m_greenButton, &QPushButton::clicked, this, []() {
-		qDebug() << "Green button clicked!";
-		});
-
-	connect(m_redButton, &QPushButton::clicked, this, []() {
-		qDebug() << "Red button clicked!";
-		});
-
-	connect(m_yellowButton, &QPushButton::clicked, this, []() {
-		qDebug() << "Yellow button clicked!";
-		});
+    startGame();
 }
 
 GameUI::~GameUI()
 {
-	delete m_scoreboard;
-	delete m_redButton;
-	delete m_blueButton;
-	delete m_yellowButton;
-	delete m_greenButton;
+    m_game->RemoveListener(this);
 }
 
-
-void GameUI::startGame()
+void GameUI::OnPressStart()
 {
-	qDebug() << "Game started!";
+    qDebug() << "Jocul a început!";
 }
 
-void GameUI::endGame()
+void GameUI::OnMoveMade()
 {
-	qDebug() << "Game ended!";
+    qDebug() << "Mutare făcută de utilizator!";
 }
 
 void GameUI::showSequence()
 {
-	qDebug() << "Showing sequence!";
+    const auto& sequence = m_game->GetMoveSequence();
+    int delay = 0;
+
+    setButtonsEnabled(false);
+
+    for (auto color : sequence)
+    {
+        QTimer::singleShot(delay, [this, color]() {
+            highlightButton(color);
+            });
+        delay += 1500; 
+    }
+
+    QTimer::singleShot(delay, [this]() {
+        setButtonsEnabled(true);
+        });
 }
 
 
-void GameUI::checkSequence()
+void GameUI::highlightButton(gameLogic::Color color)
 {
-	qDebug() << "Checking sequence!";
+    QPushButton* button = getButtonForColor(color);
+
+    if (button)
+    {
+        const QString originalStyle = button->styleSheet();
+        button->setStyleSheet("background-color: white;");
+
+        QTimer::singleShot(1000, [button, originalStyle]() {
+            button->setStyleSheet(originalStyle);
+            });
+    }
 }
 
-void GameUI::updateScore()
+void GameUI::on_startButton_clicked()
 {
-	qDebug() << "Updating score!";
+	ui.stackedWidget->setCurrentIndex(1);
+	startGame();
 }
 
-void GameUI::updateHighScore()
+void GameUI::startGame()
 {
-	qDebug() << "Updating highscore!";
+    m_game->StartNewGame();
+    m_game->ResetPlayerMove();
+
+    ui.lcdLevel->display(1);
+    ui.lcdMaxScore->display(m_game->GetMaxScore());
+
+    m_game->RandomColorGenerator();
+    showSequence();
 }
 
-void GameUI::resetScore()
+void GameUI::handleButtonPress()
 {
-	qDebug() << "Resetting score!";
+    QPushButton* button = qobject_cast<QPushButton*>(sender());
+    if (!button) return;
+
+    gameLogic::Color color = getColorForButton(button);
+
+    if (m_game->VerifyPlayerMoveSequence(color))
+    {
+        if (m_game->GetPlayerMove() == m_game->GetMoveSequence().size())
+        {
+            ui.lcdLevel->display(m_game->AddLevel());
+            if (m_game->CheckNewRecord())
+                ui.lcdMaxScore->display(m_game->GetMaxScore());
+
+            m_game->RandomColorGenerator();
+            m_game->ResetPlayerMove();
+            showSequence();
+        }
+    }
+    else
+    {
+        QMessageBox::warning(this, "Game Over", "Ai greșit secvența!");
+		ui.stackedWidget->setCurrentIndex(0);
+    }
 }
 
-void GameUI::resetHighScore()
+QPushButton* GameUI::getButtonForColor(gameLogic::Color color) const
 {
-	qDebug() << "Resetting highscore!";
+    switch (color)
+    {
+    case gameLogic::Color::RED:    return ui.redButton;
+    case gameLogic::Color::BLUE:   return ui.blueButton;
+    case gameLogic::Color::GREEN:  return ui.greenButton;
+    case gameLogic::Color::YELLOW: return ui.yellowButton;
+    default: return nullptr;
+    }
 }
 
+gameLogic::Color GameUI::getColorForButton(QPushButton* button) const
+{
+    if (button == ui.redButton)    return gameLogic::Color::RED;
+    if (button == ui.blueButton)   return gameLogic::Color::BLUE;
+    if (button == ui.greenButton)  return gameLogic::Color::GREEN;
+    if (button == ui.yellowButton) return gameLogic::Color::YELLOW;
+    return gameLogic::Color::none;
+}
+
+void GameUI::setButtonsEnabled(bool enabled)
+{
+    ui.redButton->setEnabled(enabled);
+    ui.blueButton->setEnabled(enabled);
+    ui.greenButton->setEnabled(enabled);
+    ui.yellowButton->setEnabled(enabled);
+}
