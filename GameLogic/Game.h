@@ -18,6 +18,8 @@ namespace gameLogic
 		std::vector<Color> RandomColorGenerator();
 		bool VerifyPlayerMoveSequence(Color playerMove);
 		//bool CheckNewRecord();
+		const std::vector<Color>& GetMoveSequence() const;
+		Color GetNextMove() const;
 
 	private:
 		int m_level;

@@ -12,21 +12,7 @@ GameUI::GameUI(gameLogic::Game* game, QWidget* parent)
 	m_greenButton = ui.blueButton;
 	m_scoreboard = new Scoreboard(0, 0, this);
 
-	connect(m_blueButton, &QPushButton::clicked, this, []() {
-		qDebug() << "Blue button clicked!";
-		});
-
-	connect(m_greenButton, &QPushButton::clicked, this, []() {
-		qDebug() << "Green button clicked!";
-		});
-
-	connect(m_redButton, &QPushButton::clicked, this, []() {
-		qDebug() << "Red button clicked!";
-		});
-
-	connect(m_yellowButton, &QPushButton::clicked, this, []() {
-		qDebug() << "Yellow button clicked!";
-		});
+	startGame();
 }
 
 GameUI::~GameUI()
@@ -50,7 +36,7 @@ void GameUI::OnMoveMade()
 
 void GameUI::startGame()
 {
-	qDebug() << "Game started!";
+
 }
 
 void GameUI::endGame()
