@@ -110,15 +110,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="ScoreBoard.cpp" />
     <QtRcc Include="GameUI.qrc" />
     <QtUic Include="GameUI.ui" />
     <QtMoc Include="GameUI.h" />
     <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="main.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <QtMoc Include="ScoreBoard.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
