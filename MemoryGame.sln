@@ -6,6 +6,9 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameLogic", "GameLogic\GameLogic.vcxproj", "{A54EE23C-606C-4B20-AF34-DB7DC40C9568}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "GameUI", "GameUI\GameUI.vcxproj", "{BE10E50D-B428-4803-A403-1C3E51E3E30A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{A54EE23C-606C-4B20-AF34-DB7DC40C9568} = {A54EE23C-606C-4B20-AF34-DB7DC40C9568}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,40 +1,31 @@
 #include "Observable.h"
+#include <algorithm>
 
 void Observable::AddListener(IGameListener* listener)
 {
-	m_listeners.push_back(listener);
+    m_listeners.push_back(listener);
 }
 
 void Observable::RemoveListener(IGameListener* listener)
 {
-	auto func = [listener](IGameListener* el)
-	{
-		return el == listener;
-	};
-	m_listeners.erase(std::remove_if(m_listeners.begin(), m_listeners.end(), func));
+    m_listeners.erase(
+        std::remove(m_listeners.begin(), m_listeners.end(), listener),
+        m_listeners.end()
+    );
 }
 
-void Observable::NotifyAll(UserChoice choice)
+void Observable::NotifyOnPressStart()
 {
-	switch (choice)
-	{
-	case NONE:
-		break;
-	case STARTGAME:
-		for (auto it : m_listeners)
-		{
-			it->OnPressStart();
-		}
-		break;
-	case MAKEMOVE:
-		for (auto it : m_listeners)
-		{
-			it->OnMoveMade();
-		}
-		break;
-	default:
-		break;
-	}
+    for (IGameListener* listener : m_listeners)
+    {
+        listener->OnPressStart(); 
+    }
+}
 
-
+void Observable::NotifyOnMoveMade()
+{
+    for (IGameListener* listener : m_listeners)
+    {
+        listener->OnMoveMade();
+    }
 }

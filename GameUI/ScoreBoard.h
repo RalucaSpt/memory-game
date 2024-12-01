@@ -1,4 +1,4 @@
-﻿
+﻿#pragma once
 #include <qobject.h>
 #include <QWidget>
 #include <QLabel>
