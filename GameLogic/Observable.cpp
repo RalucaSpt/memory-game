@@ -13,7 +13,7 @@ void Observable::RemoveListener(IGameListener* listener)
 	};
 	m_listeners.erase(std::remove_if(m_listeners.begin(), m_listeners.end(), func));
 }
-
+//hello
 void Observable::NotifyAll(UserChoice choice)
 {
 	switch (choice)
