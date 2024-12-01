@@ -1,0 +1,18 @@
+QPushButton {
+    background-color: #FF4C4C; /* Default red */
+    color: white;
+    border: none;
+    border-radius: 15px; /* Rounded corners */
+    font-size: 16px;
+    padding: 10px 20px;
+    transition: background-color 0.3s ease; /* Simulate transition */
+}
+
+QPushButton:hover {
+    background-color: #CC0000; /* Darker red on hover */
+}
+
+QPushButton:pressed {
+    background-color: #990000; /* Even darker red on press */
+    transform: scale(0.95); /* Shrink on press */
+}

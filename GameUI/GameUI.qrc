@@ -1,4 +1,6 @@
 <RCC>
-    <qresource prefix="GameUI">
+    <qresource prefix="/GameUI">
+        <file>Logo.png</file>
+        <file>background.jpg</file>
     </qresource>
 </RCC>
