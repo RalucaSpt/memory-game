@@ -1,29 +1,33 @@
-#pragma once
-#include <random>
+﻿#pragma once
+
 #include "Observable.h"
 #include "Color.h"
+#include <vector>
 
+namespace gameLogic {
 
-namespace gameLogic
-{
+    class Game : public Observable
+    {
+    public:
+        Game();
 
-	class Game : public Observable
-	{
-	public:
-		Game();
+        void StartNewGame();
+        std::vector<Color> RandomColorGenerator();
+        bool VerifyPlayerMoveSequence(Color playerMove);
+        bool CheckNewRecord();
 
-		void StartNewGame();
-		void MakeMove();
+        const std::vector<Color>& GetMoveSequence() const;
+        int GetMaxScore() const;
+        int AddLevel();
+        int GetPlayerMove() const;
 
-		std::vector<Color> RandomColorGenerator();
-		bool VerifyPlayerMoveSequence(Color playerMove);
-		//bool CheckNewRecord();
+        void ResetPlayerMove();
 
-	private:
-		int m_level;
-		std::vector<Color> m_moveSequence;
-		int m_maxScore;
-		int m_playerCurrentMoveNumber;
-	};
+    private:
+        int m_score;
+        std::vector<Color> m_moveSequence;
+        int m_maxScore;
+        int m_playerCurrentMoveNumber;
+    };
 
-}
+} 
