@@ -4,12 +4,12 @@
 namespace gameLogic {
 
     Game::Game()
-        : Observable(), m_playerCurrentMoveNumber(0), m_level(0), m_maxScore(0) {}
+        : Observable(), m_playerCurrentMoveNumber(0), m_score(0), m_maxScore(0) {}
 
     void Game::StartNewGame()
     {
         m_playerCurrentMoveNumber = 0;
-        m_level = 1;
+        m_score = 0;
         m_moveSequence.clear();
         NotifyOnPressStart();
     }
@@ -37,9 +37,9 @@ namespace gameLogic {
 
     bool Game::CheckNewRecord()
     {
-        if (m_level > m_maxScore)
+        if (m_score > m_maxScore)
         {
-            m_maxScore = m_level;
+            m_maxScore = m_score;
             return true;
         }
         return false;
@@ -57,7 +57,7 @@ namespace gameLogic {
 
     int Game::AddLevel()
     {
-        return ++m_level;
+        return ++m_score;
     }
 
     int Game::GetPlayerMove() const

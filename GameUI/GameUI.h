@@ -33,5 +33,6 @@ private:
 
 private slots:
     void handleButtonPress();
+	void on_startButton_clicked();
     void startGame();
 };

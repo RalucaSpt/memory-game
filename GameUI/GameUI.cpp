@@ -8,13 +8,11 @@ GameUI::GameUI(gameLogic::Game* game, QWidget* parent)
     ui.setupUi(this);
     m_game->AddListener(this);
 
-    // Conectează butoanele la slotul pentru apăsare
     for (auto& button : { ui.redButton, ui.blueButton, ui.greenButton, ui.yellowButton })
     {
         connect(button, &QPushButton::clicked, this, &GameUI::handleButtonPress);
     }
 
-    // Inițializează jocul
     startGame();
 }
 
@@ -45,7 +43,7 @@ void GameUI::showSequence()
         QTimer::singleShot(delay, [this, color]() {
             highlightButton(color);
             });
-        delay += 1000; 
+        delay += 1500; 
     }
 
     QTimer::singleShot(delay, [this]() {
@@ -63,10 +61,16 @@ void GameUI::highlightButton(gameLogic::Color color)
         const QString originalStyle = button->styleSheet();
         button->setStyleSheet("background-color: white;");
 
-        QTimer::singleShot(500, [button, originalStyle]() {
+        QTimer::singleShot(1000, [button, originalStyle]() {
             button->setStyleSheet(originalStyle);
             });
     }
+}
+
+void GameUI::on_startButton_clicked()
+{
+	ui.stackedWidget->setCurrentIndex(1);
+	startGame();
 }
 
 void GameUI::startGame()
@@ -90,7 +94,6 @@ void GameUI::handleButtonPress()
 
     if (m_game->VerifyPlayerMoveSequence(color))
     {
-        // Verifică dacă secvența este completă
         if (m_game->GetPlayerMove() == m_game->GetMoveSequence().size())
         {
             ui.lcdLevel->display(m_game->AddLevel());
@@ -105,7 +108,7 @@ void GameUI::handleButtonPress()
     else
     {
         QMessageBox::warning(this, "Game Over", "Ai greșit secvența!");
-        startGame();
+		ui.stackedWidget->setCurrentIndex(0);
     }
 }
 
