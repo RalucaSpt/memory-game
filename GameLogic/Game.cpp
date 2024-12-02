@@ -68,6 +68,7 @@ namespace gameLogic {
     {
         if (m_score > m_maxScore)
         {
+            m_maxScore = m_score;
             return true;
         }
         return false;

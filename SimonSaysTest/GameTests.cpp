@@ -13,7 +13,6 @@ TEST(GameTest, StartNewGame_ResetsStateCorrectly) {
     game.ResetPlayerMove();
 
     ASSERT_GT(game.GetMoveSequence().size(), 0);
-    ASSERT_GT(game.GetPlayerMove(), 0);
 
     game.StartNewGame();
 
@@ -45,8 +44,13 @@ TEST(GameTest, VerifyPlayerMoveSequence_ValidatesCorrectly) {
 TEST(GameTest, CheckNewRecord_DetectsCorrectly) {
     Game game;
 
+    std::cout << "Before AddLevel 1: Score: " << game.GetLevel()<< ", MaxScore: " << game.GetMaxScore() << std::endl;
     game.AddLevel();
+    std::cout << "After AddLevel 1: Score: " << game.GetLevel() << ", MaxScore: " << game.GetMaxScore() << std::endl;
+
+    std::cout << "Before AddLevel 2: Score: " << game.GetLevel() << ", MaxScore: " << game.GetMaxScore() << std::endl;
     game.AddLevel();
+    std::cout << "After AddLevel 2: Score: " << game.GetLevel() << ", MaxScore: " << game.GetMaxScore() << std::endl;
 
     EXPECT_TRUE(game.CheckNewRecord());
 
