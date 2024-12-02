@@ -20,6 +20,7 @@ public:
 private:
     Ui::GameUIClass ui;
     gameLogic::Game* m_game;
+    int m_difficultyDilay;
 
     // Metode auxiliare
     QPushButton* getButtonForColor(gameLogic::Color color) const;

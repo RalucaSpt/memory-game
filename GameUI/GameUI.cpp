@@ -4,7 +4,7 @@
 #include <QMessageBox>
 
 GameUI::GameUI(gameLogic::Game* game, QWidget* parent)
-    : QMainWindow(parent), m_game(game)
+	: QMainWindow(parent), m_game(game), m_difficultyDilay(1000)
 {
     ui.setupUi(this);
     resize(800, 600);
@@ -54,7 +54,7 @@ void GameUI::showSequence()
 { 
     const auto& sequence = m_game->GetMoveSequence();
     m_game->SetIsSequenceOver(false);
-    uint16_t delay = 1000;
+    int delay = m_difficultyDilay;
     setButtonsEnabled(false);
 
     for (auto color : sequence)
@@ -62,7 +62,7 @@ void GameUI::showSequence()
         QTimer::singleShot(delay, [this, color]() {
             highlightButton(color);
             });
-        delay += 1500;
+        delay += m_difficultyDilay+100;
     }
 
     QTimer::singleShot(delay, [this]() {
@@ -79,7 +79,7 @@ void GameUI::highlightButton(gameLogic::Color color)
     {
         const QString originalStyle = button->styleSheet();
         button->setStyleSheet("background-color: white;");
-        QTimer::singleShot(1000, [button,originalStyle]() {
+        QTimer::singleShot(m_difficultyDilay, [button,originalStyle]() {
             button->setStyleSheet(originalStyle);
             });
     }
@@ -87,6 +87,13 @@ void GameUI::highlightButton(gameLogic::Color color)
 
 void GameUI::on_startButton_clicked()
 {
+	if (ui.comboBox->currentIndex() == 0)
+		m_difficultyDilay = 1000;
+	else
+		if (ui.stackedWidget->currentIndex() == 1)
+			m_difficultyDilay = 500;
+		else
+			m_difficultyDilay = 250;
     ui.stackedWidget->setCurrentIndex(1);
     startGame();
 }
@@ -129,7 +136,6 @@ void GameUI::OnMoveMade()
         ui.lcdMaxScore->display(m_game->GetMaxScore());       
         showSequence();
     }
-   
 }
 
 //
