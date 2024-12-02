@@ -121,7 +121,7 @@ void GameUI::OnPressStart()
     m_game->ResetPlayerMove();
 
     ui.lcdLevel->display(0);
-    ui.lcdMaxScore->display(0);
+	ui.GameOver->clear();
 
     m_game->RandomColorGenerator();
     showSequence();
