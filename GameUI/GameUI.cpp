@@ -6,6 +6,7 @@ GameUI::GameUI(gameLogic::Game* game, QWidget* parent)
     : QMainWindow(parent), m_game(game)
 {
     ui.setupUi(this);
+    resize(800, 600);
     m_game->AddListener(this);
 
     for (auto& button : { ui.redButton, ui.blueButton, ui.greenButton, ui.yellowButton })
