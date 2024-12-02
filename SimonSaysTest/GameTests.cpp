@@ -44,13 +44,9 @@ TEST(GameTest, VerifyPlayerMoveSequence_ValidatesCorrectly) {
 TEST(GameTest, CheckNewRecord_DetectsCorrectly) {
     Game game;
 
-    std::cout << "Before AddLevel 1: Score: " << game.GetLevel()<< ", MaxScore: " << game.GetMaxScore() << std::endl;
     game.AddLevel();
-    std::cout << "After AddLevel 1: Score: " << game.GetLevel() << ", MaxScore: " << game.GetMaxScore() << std::endl;
 
-    std::cout << "Before AddLevel 2: Score: " << game.GetLevel() << ", MaxScore: " << game.GetMaxScore() << std::endl;
     game.AddLevel();
-    std::cout << "After AddLevel 2: Score: " << game.GetLevel() << ", MaxScore: " << game.GetMaxScore() << std::endl;
 
     EXPECT_TRUE(game.CheckNewRecord());
 
@@ -62,9 +58,11 @@ TEST(GameTest, AddLevel_IncrementsScore) {
 
     int initialScore = game.GetMaxScore();
     game.AddLevel();
+    game.CheckNewRecord();  
 
     EXPECT_EQ(game.GetMaxScore(), initialScore + 1);
 }
+
 
 TEST(GameTest, ResetPlayerMove_ResetsCorrectly) {
     Game game;
