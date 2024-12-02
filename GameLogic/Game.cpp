@@ -4,7 +4,10 @@
 namespace gameLogic {
 
     Game::Game()
-        : Observable(), m_playerCurrentMoveNumber(0), m_score(0), m_maxScore(0) {}
+        : Observable(), m_playerCurrentMoveNumber{ 0 }, m_score{ 0 }, m_maxScore{ 0 }, m_isGameOver{ false } 
+    {
+        /* --EMPTY-- */
+    }
 
     void Game::StartNewGame()
     {
@@ -12,6 +15,30 @@ namespace gameLogic {
         m_score = 0;
         m_moveSequence.clear();
         NotifyOnPressStart();
+    }
+
+    void Game::MakeMove(Color color)
+    {
+        if (VerifyPlayerMoveSequence(color))
+        {
+            if (m_playerCurrentMoveNumber == m_moveSequence.size())
+            {
+                AddLevel();
+                if (CheckNewRecord())
+                {
+                    m_maxScore = m_score;
+                }
+                RandomColorGenerator();
+                ResetPlayerMove();
+                m_isSequenceOver = true;
+            }
+
+        }
+        else
+        {
+            m_isGameOver = true;
+        }
+        NotifyOnMoveMade();
     }
 
     std::vector<Color> Game::RandomColorGenerator()
@@ -39,7 +66,6 @@ namespace gameLogic {
     {
         if (m_score > m_maxScore)
         {
-            m_maxScore = m_score;
             return true;
         }
         return false;
@@ -55,6 +81,11 @@ namespace gameLogic {
         return m_maxScore;
     }
 
+    int Game::GetLevel() const
+    {
+        return m_score;
+    }
+
     int Game::AddLevel()
     {
         return ++m_score;
@@ -65,9 +96,25 @@ namespace gameLogic {
         return m_playerCurrentMoveNumber;
     }
 
+    bool Game::IsGameOver() const
+    {
+        return m_isGameOver;
+    }
+
+    bool Game::IsSequenceOver() const
+    {
+        return m_isSequenceOver;
+    }
+
+    void Game::SetIsSequenceOver(bool isSequenceOver)
+    {
+        m_isSequenceOver = isSequenceOver;
+    }
+
     void Game::ResetPlayerMove()
     {
         m_playerCurrentMoveNumber = 0;
     }
 
+    
 } 
