@@ -14,6 +14,8 @@ namespace gameLogic {
         m_playerCurrentMoveNumber = 0;
         m_score = 0;
         m_moveSequence.clear();
+        m_isGameOver = false;
+        m_isSequenceOver = false;
         NotifyOnPressStart();
     }
 
