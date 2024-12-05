@@ -1,123 +1,120 @@
 #include "Game.h"
 #include <random>
 
-namespace gameLogic {
+namespace gameLogic
+{
+	Game::Game()
+		: Observable(), m_score{0}, m_maxScore{0}, m_playerCurrentMoveNumber{0}, m_isGameOver{false}
+	{
+		/* --EMPTY-- */
+	}
 
-    Game::Game()
-        : Observable(), m_playerCurrentMoveNumber{ 0 }, m_score{ 0 }, m_maxScore{ 0 }, m_isGameOver{ false } 
-    {
-        /* --EMPTY-- */
-    }
+	void Game::StartNewGame()
+	{
+		m_playerCurrentMoveNumber = 0;
+		m_score = 0;
+		m_moveSequence.clear();
+		m_isGameOver = false;
+		m_isSequenceOver = false;
+		NotifyOnPressStart();
+	}
 
-    void Game::StartNewGame()
-    {
-        m_playerCurrentMoveNumber = 0;
-        m_score = 0;
-        m_moveSequence.clear();
-        m_isGameOver = false;
-        m_isSequenceOver = false;
-        NotifyOnPressStart();
-    }
+	void Game::MakeMove(Color color)
+	{
+		if (VerifyPlayerMoveSequence(color))
+		{
+			if (m_playerCurrentMoveNumber == m_moveSequence.size())
+			{
+				AddLevel();
+				if (CheckNewRecord())
+				{
+					m_maxScore = m_score;
+				}
+				RandomColorGenerator();
+				ResetPlayerMove();
+				m_isSequenceOver = true;
+			}
+		}
+		else
+		{
+			m_isGameOver = true;
+		}
+		NotifyOnMoveMade();
+	}
 
-    void Game::MakeMove(Color color)
-    {
-        if (VerifyPlayerMoveSequence(color))
-        {
-            if (m_playerCurrentMoveNumber == m_moveSequence.size())
-            {
-                AddLevel();
-                if (CheckNewRecord())
-                {
-                    m_maxScore = m_score;
-                }
-                RandomColorGenerator();
-                ResetPlayerMove();
-                m_isSequenceOver = true;
-            }
+	std::vector<Color> Game::RandomColorGenerator()
+	{
+		std::random_device rd;
+		std::mt19937 gen(rd());
+		std::uniform_int_distribution<> distrib(1, 4);
 
-        }
-        else
-        {
-            m_isGameOver = true;
-        }
-        NotifyOnMoveMade();
-    }
+		m_moveSequence.push_back(static_cast<Color>(distrib(gen)));
+		return m_moveSequence;
+	}
 
-    std::vector<Color> Game::RandomColorGenerator()
-    {
-        std::random_device rd;
-        std::mt19937 gen(rd());
-        std::uniform_int_distribution<> distrib(1, 4);
+	bool Game::VerifyPlayerMoveSequence(Color playerMove)
+	{
+		if (m_playerCurrentMoveNumber < m_moveSequence.size() &&
+			m_moveSequence[m_playerCurrentMoveNumber] == playerMove)
+		{
+			m_playerCurrentMoveNumber++;
+			return true;
+		}
+		return false;
+	}
 
-        m_moveSequence.push_back(static_cast<Color>(distrib(gen)));
-        return m_moveSequence;
-    }
+	bool Game::CheckNewRecord()
+	{
+		if (m_score > m_maxScore)
+		{
+			m_maxScore = m_score;
+			return true;
+		}
+		return false;
+	}
 
-    bool Game::VerifyPlayerMoveSequence(Color playerMove)
-    {
-        if (m_playerCurrentMoveNumber < m_moveSequence.size() &&
-            m_moveSequence[m_playerCurrentMoveNumber] == playerMove)
-        {
-            m_playerCurrentMoveNumber++;
-            return true;
-        }
-        return false;
-    }
+	const std::vector<Color>& Game::GetMoveSequence() const
+	{
+		return m_moveSequence;
+	}
 
-    bool Game::CheckNewRecord()
-    {
-        if (m_score > m_maxScore)
-        {
-            m_maxScore = m_score;
-            return true;
-        }
-        return false;
-    }
+	int Game::GetMaxScore() const
+	{
+		return m_maxScore;
+	}
 
-    const std::vector<Color>& Game::GetMoveSequence() const
-    {
-        return m_moveSequence;
-    }
+	int Game::GetLevel() const
+	{
+		return m_score;
+	}
 
-    int Game::GetMaxScore() const
-    {
-        return m_maxScore;
-    }
+	int Game::AddLevel()
+	{
+		return ++m_score;
+	}
 
-    int Game::GetLevel() const
-    {
-        return m_score;
-    }
+	int Game::GetPlayerMove() const
+	{
+		return m_playerCurrentMoveNumber;
+	}
 
-    int Game::AddLevel()
-    {
-        return ++m_score;
-    }
+	bool Game::IsGameOver() const
+	{
+		return m_isGameOver;
+	}
 
-    int Game::GetPlayerMove() const
-    {
-        return m_playerCurrentMoveNumber;
-    }
+	bool Game::IsSequenceOver() const
+	{
+		return m_isSequenceOver;
+	}
 
-    bool Game::IsGameOver() const
-    {
-        return m_isGameOver;
-    }
+	void Game::SetIsSequenceOver(bool isSequenceOver)
+	{
+		m_isSequenceOver = isSequenceOver;
+	}
 
-    bool Game::IsSequenceOver() const
-    {
-        return m_isSequenceOver;
-    }
-
-    void Game::SetIsSequenceOver(bool isSequenceOver)
-    {
-        m_isSequenceOver = isSequenceOver;
-    }
-
-    void Game::ResetPlayerMove()
-    {
-        m_playerCurrentMoveNumber = 0;
-    }
-
-    
-} 
+	void Game::ResetPlayerMove()
+	{
+		m_playerCurrentMoveNumber = 0;
+	}
+}

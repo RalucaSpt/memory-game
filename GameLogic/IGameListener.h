@@ -2,7 +2,6 @@
 
 namespace gameLogic
 {
-
 	class IGameListener
 	{
 	public:
@@ -10,6 +9,5 @@ namespace gameLogic
 		virtual void OnMoveMade() = 0;
 
 		~IGameListener() = default;
-
 	};
 };

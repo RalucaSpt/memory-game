@@ -1,40 +1,39 @@
 ﻿#pragma once
 
-#include <QtWidgets/QMainWindow>
 #include "ui_GameUI.h"
-#include "..\GameLogic\Game.h"
-#include "..\GameLogic\IGameListener.h"
+#include "../GameLogic/Game.h"
+#include "../GameLogic/IGameListener.h"
 
-class GameUI : public QMainWindow, public gameLogic::IGameListener
+class GameUI : public QMainWindow, public IGameListener
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    explicit GameUI(gameLogic::Game* game, QWidget* parent = nullptr);
-    ~GameUI();
+	explicit GameUI(Game* game, QWidget* parent = nullptr);
+	~GameUI() override;
 
-    // Implementare IGameListener
-    void OnPressStart() override;
-    void OnMoveMade() override;
+	// Implementare IGameListener
+	void OnPressStart() override;
+	void OnMoveMade() override;
 
 private:
-    Ui::GameUIClass ui;
-    gameLogic::Game* m_game;
-    int m_difficultyDilay;
+	Ui::GameUIClass ui;
+	Game* m_game;
+	int m_difficultyDilay;
 
-    // Metode auxiliare
-    QPushButton* getButtonForColor(gameLogic::Color color) const;
-    gameLogic::Color getColorForButton(QPushButton* button) const;
+	// Metode auxiliare
+	QPushButton* getButtonForColor(Color color) const;
+	Color getColorForButton(QPushButton* button) const;
 
-    void setButtonsEnabled(bool enabled);
+	void setButtonsEnabled(bool enabled);
 
-    // Logica UI
-    void showSequence();
-    void highlightButton(gameLogic::Color color);
+	// Logica UI
+	void showSequence();
+	void highlightButton(Color color);
 
 private slots:
-    void handleButtonPress();
+	void handleButtonPress();
 	void on_startButton_clicked();
 	void on_resetButton_clicked();
-    void startGame();
+	void startGame();
 };
