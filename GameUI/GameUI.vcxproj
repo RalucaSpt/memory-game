@@ -124,11 +124,21 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ColorsFrame.cpp" />
+    <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="MenuScene.cpp" />
     <QtRcc Include="GameUI.qrc" />
     <QtUic Include="GameUI.ui" />
     <QtMoc Include="GameUI.h" />
+    <ClCompile Include="GameListener.cpp" />
     <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="ColorsFrame.h" />
+    <ClInclude Include="GameListener.h" />
+    <QtMoc Include="GameScene.h" />
+    <QtMoc Include="MenuScene.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">

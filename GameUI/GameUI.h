@@ -4,36 +4,33 @@
 #include "../GameLogic/Game.h"
 #include "../GameLogic/IGameListener.h"
 
-class GameUI : public QMainWindow, public IGameListener
+class GameUI : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	explicit GameUI(Game* game, QWidget* parent = nullptr);
-	~GameUI() override;
+	GameUI(QWidget* parent = nullptr);
+	~GameUI() override = default;
 
-	// Implementare IGameListener
-	void OnPressStart() override;
-	void OnMoveMade() override;
+//private slots:
+//	void HandleButtonPress();
+//	void OnStartButtonClicked();
+//	void on_resetButton_clicked();
+//	void startGame();
+
+private:
+	void SetupConnections();
+
+	/*QPushButton* GetButtonForColor(Color color) const;
+	Color GetColorForButton(QPushButton* button) const;
+
+	void SetButtonsEnabled(bool enabled);
+	void ShowSequence();
+	void HighlightButton(Color color);*/
 
 private:
 	Ui::GameUIClass ui;
-	Game* m_game;
+	//Game* m_game;
 	int m_difficultyDilay;
 
-	// Metode auxiliare
-	QPushButton* getButtonForColor(Color color) const;
-	Color getColorForButton(QPushButton* button) const;
-
-	void setButtonsEnabled(bool enabled);
-
-	// Logica UI
-	void showSequence();
-	void highlightButton(Color color);
-
-private slots:
-	void handleButtonPress();
-	void on_startButton_clicked();
-	void on_resetButton_clicked();
-	void startGame();
 };
