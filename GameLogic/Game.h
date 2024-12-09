@@ -1,43 +1,60 @@
 ﻿#pragma once
-
-#include "Observable.h"
-#include "Color.h"
 #include <vector>
+#include <functional>
 
-namespace gameLogic
+#include "IGame.h"
+#include "EColor.h"
+#include "ICommand.h"
+#include "EGameState.h"
+
+using GamePtr = std::shared_ptr<class Game>;
+
+using NotifyFunction = std::function<void(IGameListener*)>;
+
+class Game : public IGame, std::enable_shared_from_this<Game>
 {
-	class Game : public Observable
-	{
-	public:
-		Game();
+public:
+	Game();
 
-		void StartNewGame();
-		void MakeMove(Color color);
+	void SetStrategy(StrategyPtr strategy) override;
 
-		const std::vector<Color>& GetMoveSequence() const;
-		int GetMaxScore() const;
-		int GetLevel() const;
-		int GetPlayerMove() const;
-		bool IsGameOver() const;
-		bool IsSequenceOver() const;
+	void SelectColor(EColor color) override;
+	void Undo() override;
+	void CheckSequence() override;
 
-		void SetIsSequenceOver(bool isSequenceOver);
+	ColorSequence GetCurrentSequence() override;
 
-		int AddLevel();
-		std::vector<Color> RandomColorGenerator();
+	void Subscribe(GameListenerWeakPtr listener) override;
+	void Unsubscribe(GameListenerWeakPtr listener) override;
 
-		void ResetPlayerMove();
+	void AddColor(EColor color);
+	void RemoveColor();
 
-		bool VerifyPlayerMoveSequence(Color playerMove);
-		bool CheckNewRecord();
+private:
+	void NextTurn();
+	void EndGame();
+	void CreateSequence();
 
-	private:
-		int m_score;
-		std::vector<Color> m_moveSequence;
-		int m_maxScore;
-		int m_playerCurrentMoveNumber;
+	bool VerifyPlayerSequence();
 
-		bool m_isGameOver;
-		bool m_isSequenceOver;
-	};
-}
+	void NotifyListeners(NotifyFunction function);
+
+	NotifyFunction GetNotifyColorReceived(EColor color);
+	NotifyFunction GetNotifySequenceEnd();
+	NotifyFunction GetNotifyScoreChanged(int index);
+	NotifyFunction GetNotifyRoundEnded();
+	NotifyFunction GetNotifyGameEnded();
+
+private:
+	EGameState m_state;
+
+	ColorSequence m_colorSequence;
+	ColorSequence m_playerSequence;
+	CommandSequence m_playerActions;
+
+	StrategyPtr m_strategy;
+
+	Listeners m_listeners;
+
+	int m_score;
+};
