@@ -1,120 +1,205 @@
 #include "Game.h"
+
 #include <random>
+#include <thread>
 
-namespace gameLogic
+#include "SelectColorCommand.h"
+#include "EasyStrategy.h"
+#include "MediumStrategy.h"
+#include "HardStrategy.h"
+
+Game::Game()
+	: m_state{ EGameState::ReceivingSequence }
+	, m_colorSequence{}
+	, m_playerSequence{}
+	, m_playerActions{}
+	, m_strategy{}
+	, m_score{ 0 }
 {
-	Game::Game()
-		: Observable(), m_score{0}, m_maxScore{0}, m_playerCurrentMoveNumber{0}, m_isGameOver{false}
+	/* --EMPTY-- */
+}
+
+IGamePtr IGame::Produce(EDifficulty difficulty, StrategyPtr customStrategy)
+{
+	IGamePtr game = std::make_shared<Game>();
+
+	switch (difficulty)
 	{
-		/* --EMPTY-- */
+	case EDifficulty::Easy:
+		game->SetStrategy(std::make_shared<EasyStrategy>());
+		break;
+	case EDifficulty::Medium:
+		game->SetStrategy(std::make_shared<MediumStrategy>());
+		break;
+	case EDifficulty::Hard:
+		game->SetStrategy(std::make_shared<HardStrategy>());
+		break;
+	case EDifficulty::Custom:
+		game->SetStrategy(customStrategy);
+		break;
 	}
 
-	void Game::StartNewGame()
-	{
-		m_playerCurrentMoveNumber = 0;
-		m_score = 0;
-		m_moveSequence.clear();
-		m_isGameOver = false;
-		m_isSequenceOver = false;
-		NotifyOnPressStart();
-	}
+	return game;
+}
 
-	void Game::MakeMove(Color color)
+void Game::SetStrategy(StrategyPtr strategy)
+{
+	m_strategy = strategy;
+}
+
+void Game::SelectColor(EColor color)
+{
+	if (m_state != EGameState::Playing)
+		return;
+
+	auto command = std::make_shared<SelectColorCommand>(shared_from_this(), color);
+	m_playerActions.push_back(command);
+	m_playerActions.back()->Execute();
+}
+
+void Game::Undo()
+{
+	if (!m_playerActions.empty())
 	{
-		if (VerifyPlayerMoveSequence(color))
+		m_playerActions.back()->Undo();
+		m_playerActions.pop_back();
+	}
+}
+
+void Game::CheckSequence()
+{
+	if (m_state != EGameState::Playing)
+		return;
+
+	if (VerifyPlayerSequence())
+		NextTurn();
+	else
+		EndGame();
+}
+
+ColorSequence Game::GetCurrentSequence()
+{
+	return m_playerSequence;
+}
+
+void Game::Subscribe(GameListenerWeakPtr listener)
+{
+	m_listeners.push_back(listener);
+}
+
+void Game::Unsubscribe(GameListenerWeakPtr listener)
+{
+	auto listenerPtr = listener.lock();
+	if (!listenerPtr)
+		return;
+
+	auto it = std::ranges::remove_if(m_listeners,
+		[&listenerPtr](const GameListenerWeakPtr& listener)
 		{
-			if (m_playerCurrentMoveNumber == m_moveSequence.size())
-			{
-				AddLevel();
-				if (CheckNewRecord())
-				{
-					m_maxScore = m_score;
-				}
-				RandomColorGenerator();
-				ResetPlayerMove();
-				m_isSequenceOver = true;
-			}
-		}
-		else
+			auto elemPtr = listener.lock();
+			return elemPtr && elemPtr == listenerPtr;
+		});
+
+	m_listeners.erase(it.begin(), it.end());
+}
+
+void Game::AddColor(EColor color)
+{
+	m_playerSequence.emplace_back(color);
+}
+
+void Game::RemoveColor()
+{
+	m_playerSequence.pop_back();
+}
+
+void Game::NextTurn()
+{
+	m_playerSequence.clear();
+	m_playerActions.clear();
+
+	NotifyListeners(GetNotifyRoundEnded());
+	NotifyListeners(GetNotifyScoreChanged(++m_score));
+
+	m_state = EGameState::ReceivingSequence;
+
+	std::thread([this]() { CreateSequence(); }).detach();
+}
+
+void Game::EndGame()
+{
+	m_state = EGameState::End;
+
+	NotifyListeners(GetNotifyGameEnded());
+}
+
+void Game::CreateSequence()
+{
+	m_colorSequence = m_strategy->NextSequence();
+
+	for (EColor color : m_colorSequence)
+	{
+		NotifyListeners(GetNotifyColorReceived(color));
+		std::this_thread::sleep_for(m_strategy->GetDelay());
+	}
+
+	NotifyListeners(GetNotifySequenceEnd());
+
+	m_state = EGameState::Playing;
+}
+
+bool Game::VerifyPlayerSequence()
+{
+	return m_colorSequence == m_playerSequence;
+}
+
+void Game::NotifyListeners(NotifyFunction function)
+{
+	for (auto listener : m_listeners)
+	{
+		if (auto sp = listener.lock())
 		{
-			m_isGameOver = true;
+			function(sp.get());
 		}
-		NotifyOnMoveMade();
 	}
+}
 
-	std::vector<Color> Game::RandomColorGenerator()
-	{
-		std::random_device rd;
-		std::mt19937 gen(rd());
-		std::uniform_int_distribution<> distrib(1, 4);
-
-		m_moveSequence.push_back(static_cast<Color>(distrib(gen)));
-		return m_moveSequence;
-	}
-
-	bool Game::VerifyPlayerMoveSequence(Color playerMove)
-	{
-		if (m_playerCurrentMoveNumber < m_moveSequence.size() &&
-			m_moveSequence[m_playerCurrentMoveNumber] == playerMove)
+NotifyFunction Game::GetNotifyColorReceived(EColor color)
+{
+	return [&](IGameListener* listener)
 		{
-			m_playerCurrentMoveNumber++;
-			return true;
-		}
-		return false;
-	}
+			listener->OnColorReceived(color);
+		};
+}
 
-	bool Game::CheckNewRecord()
-	{
-		if (m_score > m_maxScore)
+NotifyFunction Game::GetNotifySequenceEnd()
+{
+	return [&](IGameListener* listener)
 		{
-			m_maxScore = m_score;
-			return true;
-		}
-		return false;
-	}
+			listener->OnSequenceEnd();
+		};
+}
 
-	const std::vector<Color>& Game::GetMoveSequence() const
-	{
-		return m_moveSequence;
-	}
+NotifyFunction Game::GetNotifyScoreChanged(int index)
+{
+	return [&](IGameListener* listener)
+		{
+			listener->OnScoreChanged(index);
+		};
+}
 
-	int Game::GetMaxScore() const
-	{
-		return m_maxScore;
-	}
+NotifyFunction Game::GetNotifyRoundEnded()
+{
+	return [&](IGameListener* listener)
+		{
+			listener->OnRoundEnded();
+		};
+}
 
-	int Game::GetLevel() const
-	{
-		return m_score;
-	}
-
-	int Game::AddLevel()
-	{
-		return ++m_score;
-	}
-
-	int Game::GetPlayerMove() const
-	{
-		return m_playerCurrentMoveNumber;
-	}
-
-	bool Game::IsGameOver() const
-	{
-		return m_isGameOver;
-	}
-
-	bool Game::IsSequenceOver() const
-	{
-		return m_isSequenceOver;
-	}
-
-	void Game::SetIsSequenceOver(bool isSequenceOver)
-	{
-		m_isSequenceOver = isSequenceOver;
-	}
-
-	void Game::ResetPlayerMove()
-	{
-		m_playerCurrentMoveNumber = 0;
-	}
+NotifyFunction Game::GetNotifyGameEnded()
+{
+	return [&](IGameListener* listener)
+		{
+			listener->OnGameEnded();
+		};
 }

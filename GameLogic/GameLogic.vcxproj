@@ -144,14 +144,25 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Color.h" />
+    <ClInclude Include="EColor.h" />
+    <ClInclude Include="EDifficulty.h" />
+    <ClInclude Include="HardStrategy.h" />
+    <ClInclude Include="ICommand.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="EGameState.h" />
+    <ClInclude Include="IGame.h" />
     <ClInclude Include="IGameListener.h" />
-    <ClInclude Include="Observable.h" />
+    <ClInclude Include="IStrategy.h" />
+    <ClInclude Include="EasyStrategy.h" />
+    <ClInclude Include="MediumStrategy.h" />
+    <ClInclude Include="SelectColorCommand.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Observable.cpp" />
+    <ClCompile Include="EasyStrategy.cpp" />
+    <ClCompile Include="HardStrategy.cpp" />
+    <ClCompile Include="MediumStrategy.cpp" />
+    <ClCompile Include="SelectColorCommand.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
