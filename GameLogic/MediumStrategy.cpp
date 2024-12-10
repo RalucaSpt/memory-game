@@ -11,3 +11,8 @@ Milliseconds MediumStrategy::GetDelay()
 {
 	return Milliseconds(700);
 }
+
+void MediumStrategy::Reset()
+{
+	m_sequence.clear();
+}

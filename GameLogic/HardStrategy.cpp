@@ -16,3 +16,8 @@ Milliseconds HardStrategy::GetDelay()
 {
 	return Milliseconds(800);
 }
+
+void HardStrategy::Reset()
+{
+	m_round = 0;
+}

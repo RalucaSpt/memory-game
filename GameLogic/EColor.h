@@ -6,5 +6,9 @@ enum class EColor
 	Green,
 	Yellow,
 	Red,
+	Orange,
+	Purple,
+	Cyan,
+	Magenta,
 	None
 };

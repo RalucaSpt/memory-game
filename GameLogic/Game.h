@@ -18,6 +18,8 @@ public:
 
 	void SetStrategy(StrategyPtr strategy) override;
 
+	void StartGame() override;
+
 	void SelectColor(EColor color) override;
 	void Undo() override;
 	void CheckSequence() override;
@@ -31,9 +33,10 @@ public:
 	void RemoveColor();
 
 private:
+	void CreateSequence();
 	void NextTurn();
 	void EndGame();
-	void CreateSequence();
+	void ResetGame();
 
 	bool VerifyPlayerSequence();
 

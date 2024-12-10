@@ -14,6 +14,8 @@ public:
 	virtual ColorSequence NextSequence() = 0;
 	virtual Milliseconds GetDelay() = 0;
 
+	virtual void Reset() = 0;
+
 protected:
 	int GetRandomNumber(int from, int to)
 	{

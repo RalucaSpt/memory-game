@@ -47,6 +47,14 @@ void Game::SetStrategy(StrategyPtr strategy)
 	m_strategy = strategy;
 }
 
+void Game::StartGame()
+{
+	if (m_state != EGameState::End)
+		return;
+
+	ResetGame();
+}
+
 void Game::SelectColor(EColor color)
 {
 	if (m_state != EGameState::Playing)
@@ -131,6 +139,21 @@ void Game::EndGame()
 	m_state = EGameState::End;
 
 	NotifyListeners(GetNotifyGameEnded());
+}
+
+void Game::ResetGame()
+{
+	m_state = EGameState::ReceivingSequence;
+
+	m_strategy->Reset();
+	
+	m_colorSequence.clear();
+	m_playerSequence.clear();
+	m_playerActions.clear();
+
+	m_score = 0;
+
+	std::thread([this]() { CreateSequence(); }).detach();
 }
 
 void Game::CreateSequence()

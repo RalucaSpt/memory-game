@@ -11,3 +11,8 @@ Milliseconds EasyStrategy::GetDelay()
 {
 	return Milliseconds(1000);
 }
+
+void EasyStrategy::Reset()
+{
+	m_sequence.clear();
+}

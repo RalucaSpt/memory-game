@@ -7,6 +7,8 @@ public:
 	ColorSequence NextSequence() override;
 	Milliseconds GetDelay() override;
 
+	void Reset() override;
+
 private:
 	ColorSequence m_sequence;
 };
