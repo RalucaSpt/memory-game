@@ -44,6 +44,11 @@ void GameScene::SetupConnections()
 	QObject::connect(m_gameListener.get(), &GameListener::ScoreChanged, this, &GameScene::OnScoreUpdated);
 	QObject::connect(m_gameListener.get(), &GameListener::RoundEnded, this, &GameScene::OnRoundEnded);
 	QObject::connect(m_gameListener.get(), &GameListener::GameEnded, this, &GameScene::OnGameEnded);
+	QObject::connect(m_colorsFrame, &ColorsFrame::ColorSelected, this, [this](EColor selectedColor) 
+		{
+			//m_game->SelectColor(selectedColor);
+			//m_game->CheckSequence();
+		});
 }
 
 void GameScene::OnScoreUpdated(int score)

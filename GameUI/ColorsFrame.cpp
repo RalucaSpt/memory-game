@@ -84,6 +84,10 @@ void ColorsFrame::AddButton(EColor color, std::pair<uint8_t, uint8_t> position)
 	colorButton->setFocusPolicy(Qt::NoFocus);
 
 	m_gridLayout->addWidget(colorButton, position.first, position.second);
+
+	QObject::connect(colorButton, &QPushButton::released, this, [this, color]() {
+		emit ColorSelected(color);
+	});
 }
 
 void ColorsFrame::RemoveButtons()
@@ -101,7 +105,7 @@ void ColorsFrame::RemoveButtons()
 void ColorsFrame::HighlightColor(QPushButton* colorButton, EColor color)
 {
 	QColor baseColor(ColorToString(color));
-	QColor hightlightColor = baseColor.lighter(200);
+	QColor hightlightColor = baseColor.lighter(150);
 	QString styleSheet = QString(
 		"QPushButton {"
 		"    background-color: %1;"
@@ -117,7 +121,7 @@ void ColorsFrame::SetDefaultColor(QPushButton* colorButton, EColor color)
 	QString colorName = ColorToString(color);
 
 	QColor baseColor(colorName);
-	QColor hoverColor = baseColor.darker(120);
+	QColor hoverColor = baseColor.darker(150);
 
 	QString styleSheet = QString(
 		"QPushButton {"

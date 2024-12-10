@@ -12,15 +12,15 @@ void GameListener::OnSequenceEnd()
 
 void GameListener::OnScoreChanged(int score)
 {
-	std::cout << "Score changed to: " << score << std::endl;
+	int a = 5;
 }
 
 void GameListener::OnRoundEnded()
 {
-	std::cout << "Round has ended." << std::endl;
+	int a = 5;
 }
 
 void GameListener::OnGameEnded()
 {
-	std::cout << "Game has ended." << std::endl;
+	int a = 5;
 }

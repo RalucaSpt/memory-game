@@ -17,6 +17,9 @@ public:
 
 	void AddButtonsAccordingToDifficulty(EDifficulty difficulty);
 
+signals:
+	void ColorSelected(EColor color);
+
 public slots:
 	void OnColorReceived(EColor color);
 	void OnSequenceEnded();
