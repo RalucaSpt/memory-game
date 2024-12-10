@@ -1,4 +1,5 @@
 #include "ColorsFrame.h"
+#include <QTimer>
 
 ColorsFrame::ColorsFrame(QWidget* parent) :
 	m_firstShow {true},
@@ -22,7 +23,19 @@ void ColorsFrame::AddButtonsAccordingToDifficulty(EDifficulty difficulty)
 }
 
 void ColorsFrame::OnColorReceived(EColor color) {
-	int a = 5;
+
+	auto it = m_buttonMap.find(color);
+	if (it != m_buttonMap.end()) {
+		HighlightColor(it->second, color);
+	}
+}
+
+void ColorsFrame::OnSequenceEnded()
+{
+	for (auto& pair : m_buttonMap) {
+		SetDefaultColor(pair.second, pair.first);
+	}
+	this->setEnabled(true);
 }
 
 void ColorsFrame::showEvent(QShowEvent* event)
@@ -64,23 +77,8 @@ void ColorsFrame::AddButton(EColor color, std::pair<uint8_t, uint8_t> position)
 
 	m_buttonMap.insert({ color, colorButton });
 
-	QString colorName = ColorToString(color);
+	SetDefaultColor(colorButton, color);
 
-	QColor baseColor(colorName);
-	QColor hoverColor = baseColor.darker(120);
-
-	QString styleSheet = QString(
-		"QPushButton {"
-		"    background-color: %1;"
-		"    border: none;"
-		"    padding: 10px;"
-		"}"
-		"QPushButton:hover {"
-		"    background-color: %2;"
-		"}"
-	).arg(baseColor.name()).arg(hoverColor.name());
-
-	colorButton->setStyleSheet(styleSheet);
 	colorButton->setCursor(Qt::PointingHandCursor);
 	colorButton->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 	colorButton->setFocusPolicy(Qt::NoFocus);
@@ -98,6 +96,40 @@ void ColorsFrame::RemoveButtons()
 		}
 		delete item;
 	}
+}
+
+void ColorsFrame::HighlightColor(QPushButton* colorButton, EColor color)
+{
+	QColor baseColor(ColorToString(color));
+	QColor hightlightColor = baseColor.lighter(200);
+	QString styleSheet = QString(
+		"QPushButton {"
+		"    background-color: %1;"
+		"    border: none;"
+		"    padding: 10px;"
+		"}").arg(hightlightColor.name());
+
+	colorButton->setStyleSheet(styleSheet);
+}
+
+void ColorsFrame::SetDefaultColor(QPushButton* colorButton, EColor color)
+{
+	QString colorName = ColorToString(color);
+
+	QColor baseColor(colorName);
+	QColor hoverColor = baseColor.darker(120);
+
+	QString styleSheet = QString(
+		"QPushButton {"
+		"    background-color: %1;"
+		"    border: none;"
+		"    padding: 10px;"
+		"}"
+		"QPushButton:hover {"
+		"    background-color: %2;"
+		"}"
+	).arg(baseColor.name()).arg(hoverColor.name());
+	colorButton->setStyleSheet(styleSheet);
 }
 
 QString ColorsFrame::ColorToString(EColor color)

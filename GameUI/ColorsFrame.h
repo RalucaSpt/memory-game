@@ -19,6 +19,7 @@ public:
 
 public slots:
 	void OnColorReceived(EColor color);
+	void OnSequenceEnded();
 
 protected:
 	void showEvent(QShowEvent* event) override;
@@ -27,6 +28,8 @@ private:
 	void AddColoredButtons(uint8_t numberOfButtons);
 	void AddButton(EColor color, std::pair<uint8_t, uint8_t> position);
 	void RemoveButtons();
+	void HighlightColor(QPushButton* colorButton, EColor color);
+	void SetDefaultColor(QPushButton* colorButton, EColor color);
 
 	QString ColorToString(EColor color);
 

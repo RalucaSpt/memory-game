@@ -7,7 +7,7 @@ void GameListener::OnColorReceived(EColor color)
 
 void GameListener::OnSequenceEnd()
 {
-	std::cout << "Sequence has ended." << std::endl;
+	emit SequenceEnded();
 }
 
 void GameListener::OnScoreChanged(int score)

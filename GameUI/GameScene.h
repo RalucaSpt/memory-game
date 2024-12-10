@@ -24,7 +24,6 @@ public slots:
 	void OnNewGameStarted(EDifficulty difficulty);
 
 private slots:
-	void OnSequenceEnded();
 	void OnScoreUpdated(int score);
 	void OnRoundEnded();
 	void OnGameEnded();

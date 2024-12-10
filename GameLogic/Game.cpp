@@ -159,6 +159,7 @@ void Game::CreateSequence()
 
 	for (EColor color : m_colorSequence)
 	{
+		std::this_thread::sleep_for(m_strategy->GetDelay());
 		NotifyListeners(GetNotifyColorReceived(color));
 		std::this_thread::sleep_for(m_strategy->GetDelay());
 	}

@@ -40,14 +40,10 @@ void GameScene::SetupConnections()
 			emit BackToMainMenuButtonPressed();
 		});
 	QObject::connect(m_gameListener.get(), &GameListener::ColorReceived, m_colorsFrame, &ColorsFrame::OnColorReceived);
-	QObject::connect(m_gameListener.get(), &GameListener::SequenceEnded, this, &GameScene::OnSequenceEnded);
+	QObject::connect(m_gameListener.get(), &GameListener::SequenceEnded, m_colorsFrame, &ColorsFrame::OnSequenceEnded);
 	QObject::connect(m_gameListener.get(), &GameListener::ScoreChanged, this, &GameScene::OnScoreUpdated);
 	QObject::connect(m_gameListener.get(), &GameListener::RoundEnded, this, &GameScene::OnRoundEnded);
 	QObject::connect(m_gameListener.get(), &GameListener::GameEnded, this, &GameScene::OnGameEnded);
-}
-
-void GameScene::OnSequenceEnded()
-{
 }
 
 void GameScene::OnScoreUpdated(int score)
