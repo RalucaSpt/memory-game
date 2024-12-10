@@ -5,7 +5,7 @@ ColorSequence HardStrategy::NextSequence()
 	ColorSequence sequence;
 	
 	for(int i = 0; i < m_round; ++i)
-		sequence.push_back(static_cast<EColor>(GetRandomNumber(0, 3)));
+		sequence.push_back(static_cast<EColor>(GetRandomNumber(0, 7)));
 
 	++m_round;
 

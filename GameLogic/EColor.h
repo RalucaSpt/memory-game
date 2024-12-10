@@ -2,10 +2,10 @@
 
 enum class EColor
 {
+	Red,
 	Blue,
 	Green,
 	Yellow,
-	Red,
 	Orange,
 	Purple,
 	Cyan,

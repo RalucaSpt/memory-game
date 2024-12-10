@@ -49,9 +49,6 @@ void Game::SetStrategy(StrategyPtr strategy)
 
 void Game::StartGame()
 {
-	if (m_state != EGameState::End)
-		return;
-
 	ResetGame();
 }
 
