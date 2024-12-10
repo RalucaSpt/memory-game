@@ -4,6 +4,8 @@
 
 #include <QtWidgets/QFrame>
 #include <QPushButton>
+#include <QComboBox>
+#include "EDifficulty.h"
 
 class MenuScene : public QWidget
 {
@@ -16,11 +18,12 @@ public:
 	void showEvent(QShowEvent* event) override;
 
 signals:
-	void OnStartButtonPressed();
-	void OnQuitButtonPressed();
+	void StartButtonPressed(EDifficulty difficulty);
+	void QuitButtonPressed();
 
 private:
 	bool m_firstShow;
 	QPushButton* m_startGameButton;
 	QPushButton* m_quitButton;
+	QComboBox* m_difficultyComboBox;
 };

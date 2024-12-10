@@ -136,7 +136,7 @@
   </ItemGroup>
   <ItemGroup>
     <QtMoc Include="ColorsFrame.h" />
-    <ClInclude Include="GameListener.h" />
+    <QtMoc Include="GameListener.h" />
     <QtMoc Include="GameScene.h" />
     <QtMoc Include="MenuScene.h" />
   </ItemGroup>

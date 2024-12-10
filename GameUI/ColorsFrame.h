@@ -4,6 +4,8 @@
 #include <QPushButton>
 #include <QGridLayout>
 #include <unordered_map>
+#include "EColor.h"
+#include "EDifficulty.h"
 
 class ColorsFrame : public QFrame
 {
@@ -13,16 +15,23 @@ public:
 	ColorsFrame(QWidget* parent = nullptr);
 	~ColorsFrame() override = default;
 
+	void AddButtonsAccordingToDifficulty(EDifficulty difficulty);
+
+public slots:
+	void OnColorReceived(EColor color);
+
 protected:
 	void showEvent(QShowEvent* event) override;
 
 private:
 	void AddColoredButtons(uint8_t numberOfButtons);
-	void AddButton(const QString& color, std::pair<uint8_t, uint8_t> position);
+	void AddButton(EColor color, std::pair<uint8_t, uint8_t> position);
+	void RemoveButtons();
+
+	QString ColorToString(EColor color);
 
 private:
 	bool m_firstShow;
-	std::unordered_map<QString, QPushButton*> buttonMap;
-	std::vector<QString> m_colors;
+	std::unordered_map<EColor, QPushButton*> m_buttonMap;
 	QGridLayout* m_gridLayout;
 };

@@ -4,6 +4,8 @@
 #include <QPushButton>
 #include <QLCDNumber>
 #include "ColorsFrame.h"
+#include "IGame.h"
+#include "GameListener.h"
 
 class GameScene : public QWidget
 {
@@ -16,7 +18,19 @@ public:
 	void showEvent(QShowEvent* event) override;
 
 signals:
-	void OnBackToMainMenuButtonPressed();
+	void BackToMainMenuButtonPressed();
+
+public slots:
+	void OnNewGameStarted(EDifficulty difficulty);
+
+private slots:
+	void OnSequenceEnded();
+	void OnScoreUpdated(int score);
+	void OnRoundEnded();
+	void OnGameEnded();
+
+private:
+	void SetupConnections();
 
 private:
 	bool m_firstShow;
@@ -24,4 +38,6 @@ private:
 	QLCDNumber* m_currentScore;
 	QPushButton* m_backToMainMenu;
 	ColorsFrame* m_colorsFrame;
+	std::shared_ptr<GameListener> m_gameListener;
+	IGamePtr m_game;
 };

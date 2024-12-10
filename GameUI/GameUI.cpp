@@ -3,8 +3,7 @@
 #include <QTimer>
 
 GameUI::GameUI(QWidget* parent)
-	: QMainWindow(parent), 
-	m_difficultyDilay(1000)
+	: QMainWindow(parent)
 {
 	ui.setupUi(this);
 	SetupConnections();
@@ -20,17 +19,28 @@ GameUI::GameUI(QWidget* parent)
 void GameUI::SetupConnections()
 {
 	//Menu Scene
-	QObject::connect(ui.menuScene, &MenuScene::OnStartButtonPressed, this, [this]()
+	QObject::connect(ui.menuScene, &MenuScene::StartButtonPressed, this, [this](EDifficulty difficulty)
 		{
+			/*m_game = IGame::Produce(difficulty);
+			m_game->Subscribe(m_gameListener);
+			m_game->StartGame();*/
 			ui.stackedWidget->setCurrentWidget(ui.gameScene);
+			ui.gameScene->OnNewGameStarted(difficulty);
 		});
-	QObject::connect(ui.menuScene, &MenuScene::OnQuitButtonPressed, this, []() { QCoreApplication::quit(); });
+	QObject::connect(ui.menuScene, &MenuScene::QuitButtonPressed, this, []() { QCoreApplication::quit(); });
 
 	//Game Scene
-	QObject::connect(ui.gameScene, &GameScene::OnBackToMainMenuButtonPressed, this, [this]()
+	QObject::connect(ui.gameScene, &GameScene::BackToMainMenuButtonPressed, this, [this]()
 		{
 			ui.stackedWidget->setCurrentWidget(ui.menuScene);
 		});
+
+	//Game Listener
+	//QObject::connect(m_gameListener.get(), &GameListener::ColorReceived, ui.colorsFrame, &ColorsFrame::OnColorReceived);
+	/*QObject::connect(m_gameListener, &GameListener::sequenceEnded, m_gameScene, &GameScene::onSequenceEnded);
+	QObject::connect(m_gameListener, &GameListener::scoreChanged, m_gameScene, &GameScene::onScoreUpdated);
+	QObject::connect(m_gameListener, &GameListener::roundEnded, m_gameScene, &GameScene::onRoundEnded);
+	QObject::connect(m_gameListener, &GameListener::gameEnded, m_gameScene, &GameScene::onGameEnded);*/
 }
 
 //QPushButton* GameUI::GetButtonForColor(Color color) const

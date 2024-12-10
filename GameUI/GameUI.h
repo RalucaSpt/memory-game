@@ -2,7 +2,6 @@
 
 #include "ui_GameUI.h"
 #include "../GameLogic/Game.h"
-#include "../GameLogic/IGameListener.h"
 
 class GameUI : public QMainWindow
 {
@@ -31,6 +30,5 @@ private:
 private:
 	Ui::GameUIClass ui;
 	//Game* m_game;
-	int m_difficultyDilay;
-
+	//int m_difficultyDilay;
 };
