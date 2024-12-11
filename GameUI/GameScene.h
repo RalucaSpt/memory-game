@@ -27,11 +27,11 @@ public slots:
 
 private slots:
 	void OnScoreUpdated(int score);
-	void OnRoundEnded();
 	void OnGameEnded();
 
 private:
 	void SetupConnections();
+	void ToggleButtons(bool enable);
 
 private:
 	bool m_firstShow;
@@ -39,6 +39,7 @@ private:
 	QLCDNumber* m_currentScore;
 	QPushButton* m_backToMainMenuButton;
 	QPushButton* m_confirmSequenceButton;
+	QPushButton* m_undoButton;
 	QLabel* m_resultLabel;
 	ColorsFrame* m_colorsFrame;
 	HistoryFrame* m_historyFrame;

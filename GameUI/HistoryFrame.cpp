@@ -24,6 +24,18 @@ void HistoryFrame::OnRoundEnded()
 	}
 }
 
+void HistoryFrame::OnUndo()
+{
+	for (auto labelIt = m_previousSelectedColors.rbegin(); labelIt != m_previousSelectedColors.rend(); ++labelIt) {
+		QLabel* label = *labelIt;
+
+		if (label->styleSheet().contains("background-color:") && !label->styleSheet().contains("transparent")) {
+			label->setStyleSheet("background-color: transparent;");
+			break;
+		}
+	}
+}
+
 void HistoryFrame::showEvent(QShowEvent* event)
 {
 	if (m_firstShow) {

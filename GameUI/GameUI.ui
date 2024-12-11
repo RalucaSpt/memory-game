@@ -427,7 +427,7 @@ background-position: center;
              <string notr="true">background-color: rgba(0, 0, 0, 10);</string>
             </property>
             <property name="text">
-             <string>Main Menu</string>
+             <string>Exit</string>
             </property>
            </widget>
           </item>
@@ -450,6 +450,25 @@ background-position: center;
             </property>
             <property name="text">
              <string>Confirm</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="undoButton">
+            <property name="maximumSize">
+             <size>
+              <width>150</width>
+              <height>50</height>
+             </size>
+            </property>
+            <property name="focusPolicy">
+             <enum>Qt::FocusPolicy::NoFocus</enum>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: rgba(0, 0, 0, 10);</string>
+            </property>
+            <property name="text">
+             <string>Undo</string>
             </property>
            </widget>
           </item>

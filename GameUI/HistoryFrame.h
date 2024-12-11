@@ -17,6 +17,7 @@ public:
 
 public slots:
 	void OnRoundEnded();
+	void OnUndo();
 
 protected:
 	void showEvent(QShowEvent* event) override;

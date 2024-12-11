@@ -22,6 +22,7 @@ void GameScene::showEvent(QShowEvent* event)
 		m_historyFrame = findChild<HistoryFrame*>("historyFrame");
 		m_backToMainMenuButton = findChild<QPushButton*>("mainMenuButton");
 		m_confirmSequenceButton = findChild<QPushButton*>("confirmButton");
+		m_undoButton = findChild<QPushButton*>("undoButton");
 
 		SetupConnections();
 
@@ -36,17 +37,11 @@ void GameScene::OnNewGameStarted(EDifficulty difficulty)
 	m_game->StartGame();
 	m_colorsFrame->AddButtonsAccordingToDifficulty(difficulty);
 	m_resultLabel->clear();
-	m_confirmSequenceButton->setEnabled(true);
+	ToggleButtons(true);
 }
 
 void GameScene::SetupConnections()
 {
-	QObject::connect(m_backToMainMenuButton, &QPushButton::released, this, [this]()
-		{
-			m_game->StopGame();
-			m_currentScore->display(0);
-			emit BackToMainMenuButtonPressed();
-		});
 	QObject::connect(m_gameListener.get(), &GameListener::ColorReceived, m_colorsFrame, &ColorsFrame::OnColorReceived);
 	QObject::connect(m_gameListener.get(), &GameListener::SequenceEnded, m_colorsFrame, &ColorsFrame::OnSequenceEnded);
 	QObject::connect(m_gameListener.get(), &GameListener::ScoreChanged, this, &GameScene::OnScoreUpdated);
@@ -60,6 +55,23 @@ void GameScene::SetupConnections()
 	QObject::connect(m_confirmSequenceButton, &QPushButton::released, this, [this]() {
 			m_game->CheckSequence();
 		});
+	QObject::connect(m_undoButton, &QPushButton::released, this, [this]() {
+		m_game->Undo();
+		QMetaObject::invokeMethod(m_historyFrame, "OnUndo", Qt::QueuedConnection);
+	});
+	QObject::connect(m_backToMainMenuButton, &QPushButton::released, this, [this]()
+		{
+			m_game->StopGame();
+			m_currentScore->display(0);
+			emit BackToMainMenuButtonPressed();
+		});
+}
+
+void GameScene::ToggleButtons(bool enable)
+{
+	m_confirmSequenceButton->setEnabled(enable);
+	m_colorsFrame->setEnabled(enable);
+	m_undoButton->setEnabled(enable);
 }
 
 void GameScene::OnScoreUpdated(int score)
@@ -67,13 +79,9 @@ void GameScene::OnScoreUpdated(int score)
 	m_currentScore->display(score);
 }
 
-void GameScene::OnRoundEnded()
-{
-}
-
 void GameScene::OnGameEnded()
 {
 	m_resultLabel->setText("Final Score: " + QString::number(m_currentScore->intValue()));
-	m_confirmSequenceButton->setEnabled(false);
-	m_historyFrame->OnRoundEnded();
+	ToggleButtons(false);
+	QMetaObject::invokeMethod(m_historyFrame, "OnRoundEnded", Qt::QueuedConnection);
 }
