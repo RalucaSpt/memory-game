@@ -12,15 +12,15 @@ void GameListener::OnSequenceEnd()
 
 void GameListener::OnScoreChanged(int score)
 {
-	int a = 5;
+	emit ScoreChanged(score);
 }
 
 void GameListener::OnRoundEnded()
 {
-	int a = 5;
+	emit RoundEnded();
 }
 
 void GameListener::OnGameEnded()
 {
-	int a = 5;
+	emit GameEnded();
 }

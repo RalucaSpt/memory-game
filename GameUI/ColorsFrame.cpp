@@ -1,5 +1,6 @@
 #include "ColorsFrame.h"
 #include <QTimer>
+#include <QPointer>
 
 ColorsFrame::ColorsFrame(QWidget* parent) :
 	m_firstShow {true},
@@ -113,7 +114,15 @@ void ColorsFrame::HighlightColor(QPushButton* colorButton, EColor color)
 		"    padding: 10px;"
 		"}").arg(hightlightColor.name());
 
+	QString originalStyleSheet = colorButton->styleSheet();
 	colorButton->setStyleSheet(styleSheet);
+
+	QPointer<QPushButton> safeButton = colorButton;
+	QTimer::singleShot(1000, [safeButton, originalStyleSheet]() {
+		if (safeButton) {
+			safeButton->setStyleSheet(originalStyleSheet);
+		}
+		});
 }
 
 void ColorsFrame::SetDefaultColor(QPushButton* colorButton, EColor color)

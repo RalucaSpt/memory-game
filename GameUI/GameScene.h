@@ -3,9 +3,11 @@
 #include <QtWidgets/QFrame>
 #include <QPushButton>
 #include <QLCDNumber>
+#include <QLabel>
 #include "ColorsFrame.h"
 #include "IGame.h"
 #include "GameListener.h"
+#include "HistoryFrame.h"
 
 class GameScene : public QWidget
 {
@@ -35,8 +37,11 @@ private:
 	bool m_firstShow;
 	QLCDNumber* m_bestScore;
 	QLCDNumber* m_currentScore;
-	QPushButton* m_backToMainMenu;
+	QPushButton* m_backToMainMenuButton;
+	QPushButton* m_confirmSequenceButton;
+	QLabel* m_resultLabel;
 	ColorsFrame* m_colorsFrame;
+	HistoryFrame* m_historyFrame;
 	std::shared_ptr<GameListener> m_gameListener;
 	IGamePtr m_game;
 };

@@ -126,6 +126,7 @@
   <ItemGroup>
     <ClCompile Include="ColorsFrame.cpp" />
     <ClCompile Include="GameScene.cpp" />
+    <ClCompile Include="HistoryFrame.cpp" />
     <ClCompile Include="MenuScene.cpp" />
     <QtRcc Include="GameUI.qrc" />
     <QtUic Include="GameUI.ui" />
@@ -139,6 +140,9 @@
     <QtMoc Include="GameListener.h" />
     <QtMoc Include="GameScene.h" />
     <QtMoc Include="MenuScene.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <QtMoc Include="HistoryFrame.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Condition="Exists('$(QtMsBuild)\qt.targets')">
