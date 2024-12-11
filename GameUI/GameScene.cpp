@@ -75,4 +75,5 @@ void GameScene::OnGameEnded()
 {
 	m_resultLabel->setText("Final Score: " + QString::number(m_currentScore->intValue()));
 	m_confirmSequenceButton->setEnabled(false);
+	m_historyFrame->OnRoundEnded();
 }

@@ -56,6 +56,7 @@ void Game::StartGame()
 void Game::StopGame()
 {
 	m_stopping = true;
+	NotifyListeners(GetNotifyGameEnded());
 }
 
 void Game::SelectColor(EColor color)
