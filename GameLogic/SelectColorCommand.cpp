@@ -2,7 +2,7 @@
 
 #include "Game.h"
 
-SelectColorCommand::SelectColorCommand(GamePtr game, EColor color)
+SelectColorCommand::SelectColorCommand(Game* game, EColor color)
 	: m_game{ game }
 	, m_color{ color }
 {}

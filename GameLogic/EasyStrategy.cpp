@@ -9,7 +9,7 @@ ColorSequence EasyStrategy::NextSequence()
 
 Milliseconds EasyStrategy::GetDelay()
 {
-	return Milliseconds(1000);
+	return Milliseconds(2000);
 }
 
 void EasyStrategy::Reset()

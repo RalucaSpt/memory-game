@@ -9,12 +9,12 @@ using GamePtr = std::shared_ptr<class Game>;
 class SelectColorCommand : public ICommand
 {
 public:
-	SelectColorCommand(GamePtr game, EColor color);
+	SelectColorCommand(Game* game, EColor color);
 
 	void Execute() override;
 	void Undo() override;
 
 private:
-	GamePtr m_game;
+	Game* m_game;
 	EColor m_color;
 };

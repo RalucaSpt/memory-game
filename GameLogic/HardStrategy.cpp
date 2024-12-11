@@ -4,7 +4,7 @@ ColorSequence HardStrategy::NextSequence()
 {
 	ColorSequence sequence;
 	
-	for(int i = 0; i < m_round; ++i)
+	for(int i = 0; i <= m_round; ++i)
 		sequence.push_back(static_cast<EColor>(GetRandomNumber(0, 7)));
 
 	++m_round;
@@ -14,7 +14,7 @@ ColorSequence HardStrategy::NextSequence()
 
 Milliseconds HardStrategy::GetDelay()
 {
-	return Milliseconds(800);
+	return Milliseconds(1600);
 }
 
 void HardStrategy::Reset()

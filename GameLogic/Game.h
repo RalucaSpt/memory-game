@@ -11,7 +11,7 @@ using GamePtr = std::shared_ptr<class Game>;
 
 using NotifyFunction = std::function<void(IGameListener*)>;
 
-class Game : public IGame, std::enable_shared_from_this<Game>
+class Game : public IGame
 {
 public:
 	Game();
@@ -19,6 +19,7 @@ public:
 	void SetStrategy(StrategyPtr strategy) override;
 
 	void StartGame() override;
+	void StopGame() override;
 
 	void SelectColor(EColor color) override;
 	void Undo() override;
@@ -60,4 +61,6 @@ private:
 	Listeners m_listeners;
 
 	int m_score;
+
+	bool m_stopping;
 };

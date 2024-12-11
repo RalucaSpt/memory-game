@@ -20,6 +20,7 @@ public:
 	virtual void SetStrategy(StrategyPtr strategy) = 0;
 
 	virtual void StartGame() = 0;
+	virtual void StopGame() = 0;
 
 	virtual void SelectColor(EColor color) = 0;
 	virtual void Undo() = 0;

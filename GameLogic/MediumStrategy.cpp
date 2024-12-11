@@ -9,7 +9,7 @@ ColorSequence MediumStrategy::NextSequence()
 
 Milliseconds MediumStrategy::GetDelay()
 {
-	return Milliseconds(700);
+	return Milliseconds(1400);
 }
 
 void MediumStrategy::Reset()

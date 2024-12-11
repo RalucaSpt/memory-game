@@ -15,6 +15,7 @@ Game::Game()
 	, m_playerActions{}
 	, m_strategy{}
 	, m_score{ 0 }
+	, m_stopping{ false }
 {
 	/* --EMPTY-- */
 }
@@ -52,12 +53,17 @@ void Game::StartGame()
 	ResetGame();
 }
 
+void Game::StopGame()
+{
+	m_stopping = true;
+}
+
 void Game::SelectColor(EColor color)
 {
 	if (m_state != EGameState::Playing)
 		return;
 
-	auto command = std::make_shared<SelectColorCommand>(shared_from_this(), color);
+	auto command = std::make_shared<SelectColorCommand>(this, color);
 	m_playerActions.push_back(command);
 	m_playerActions.back()->Execute();
 }
@@ -159,9 +165,11 @@ void Game::CreateSequence()
 
 	for (EColor color : m_colorSequence)
 	{
-		std::this_thread::sleep_for(m_strategy->GetDelay());
+		std::this_thread::sleep_for(m_strategy->GetDelay() / 2);
+		if (m_stopping)
+			return;
 		NotifyListeners(GetNotifyColorReceived(color));
-		std::this_thread::sleep_for(m_strategy->GetDelay());
+		std::this_thread::sleep_for(m_strategy->GetDelay() / 2);
 	}
 
 	NotifyListeners(GetNotifySequenceEnd());
