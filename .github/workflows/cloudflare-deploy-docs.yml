@@ -1,0 +1,29 @@
+on:
+    push:
+        paths:
+            - Docs/**
+            - GameLogic/**
+            - .github/workflows/cloudflare-deploy-docs.yml
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+    permissions:
+      contents: read
+      deployments: write
+    steps:
+      - name: Clone the repo
+        uses: actions/checkout@v4
+
+      - name: Generate site
+        uses: mattnotmitt/doxygen-action@v1.9.8
+        with:
+            doxyfile-path: 'memory-game/Docs/Doxyfile-logic'
+
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3.13.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy memory-game/Docs/html --project-name=memorygame-docs
