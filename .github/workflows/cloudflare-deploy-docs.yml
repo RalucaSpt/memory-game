@@ -17,10 +17,12 @@ jobs:
       - name: Clone the repo
         uses: actions/checkout@v4
 
+      - name: Install doxygen
+        run: sudo apt update && sudo apt install doxygen
+
       - name: Generate site
-        uses: mattnotmitt/doxygen-action@v1.9.8
-        with:
-            doxyfile-path: '/home/runner/work/memory-game/memory-game/Docs/Doxyfile-logic'
+        working-directory: memory-game/Docs/
+        run: doxygen Doxyfile-logic
 
       - name: Deploy
         uses: cloudflare/wrangler-action@v3.13.0
