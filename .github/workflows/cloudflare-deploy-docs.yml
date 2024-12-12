@@ -24,9 +24,9 @@ jobs:
         working-directory: docs/
         run: doxygen Doxyfile-logic
 
-      - name: Deploy
+      - name: Deploy to Cloudflare Pages
         uses: cloudflare/wrangler-action@v3.13.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy /home/runner/work/memory-game/memory-game/Docs/html/ --project-name=memorygame-docs
+          command: pages deploy /home/runner/work/memory-game/memory-game/docs/html/ --project-name=memorygame-docs
