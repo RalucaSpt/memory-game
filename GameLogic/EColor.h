@@ -1,5 +1,8 @@
 #pragma once
 
+/**
+ * Color values for the cells in the game
+ */
 enum class EColor
 {
 	Red,
