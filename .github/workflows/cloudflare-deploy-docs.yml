@@ -1,3 +1,4 @@
+name: Deploy to Cloudflare Pages
 on:
     push:
         paths:
@@ -7,8 +8,8 @@ on:
 
 jobs:
   deploy:
+    name: Deploy to Cloudflare Pages
     runs-on: ubuntu-latest
-    name: Deploy
     permissions:
       contents: read
       deployments: write
@@ -19,11 +20,11 @@ jobs:
       - name: Generate site
         uses: mattnotmitt/doxygen-action@v1.9.8
         with:
-            doxyfile-path: 'memory-game/Docs/Doxyfile-logic'
+            doxyfile-path: '/home/runner/work/memory-game/memory-game/Docs/Doxyfile-logic'
 
       - name: Deploy
         uses: cloudflare/wrangler-action@v3.13.0
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: pages deploy memory-game/Docs/html --project-name=memorygame-docs
+          command: pages deploy /home/runner/work/memory-game/memory-game/Docs/html/ --project-name=memorygame-docs
