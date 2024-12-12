@@ -1,0 +1,37 @@
+[
+  {
+    "Name": "UI and Tests",
+    "Projects": [
+      {
+        "Path": "GameUI\\GameUI.vcxproj",
+        "Action": "Start",
+        "DebugTarget": "Local Windows Debugger"
+      },
+      {
+        "Path": "SimonSaysTest\\SimonSaysTest.vcxproj",
+        "Action": "Start",
+        "DebugTarget": "Local Windows Debugger"
+      }
+    ]
+  },
+  {
+    "Name": "UI",
+    "Projects": [
+      {
+        "Path": "GameUI\\GameUI.vcxproj",
+        "Action": "Start",
+        "DebugTarget": "Local Windows Debugger"
+      }
+    ]
+  },
+  {
+    "Name": "Tests",
+    "Projects": [
+      {
+        "Path": "SimonSaysTest\\SimonSaysTest.vcxproj",
+        "Action": "Start",
+        "DebugTarget": "Local Windows Debugger"
+      }
+    ]
+  }
+]
