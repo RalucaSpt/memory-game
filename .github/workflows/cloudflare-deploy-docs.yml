@@ -21,7 +21,7 @@ jobs:
         run: sudo apt update && sudo apt install doxygen
 
       - name: Generate site
-        working-directory: memory-game/Docs/
+        working-directory: Docs/
         run: doxygen Doxyfile-logic
 
       - name: Deploy
