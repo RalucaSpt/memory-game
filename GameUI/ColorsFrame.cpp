@@ -145,7 +145,7 @@ void ColorsFrame::SetDefaultColor(QPushButton* colorButton, EColor color)
 	colorButton->setStyleSheet(styleSheet);
 }
 
-QString ColorsFrame::ColorToString(EColor color)
+QString ColorsFrame::ColorToString(EColor color) const
 {
 	switch (color) {
 		case EColor::Blue:    return "blue";

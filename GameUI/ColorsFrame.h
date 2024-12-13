@@ -34,7 +34,7 @@ private:
 	void HighlightColor(QPushButton* colorButton, EColor color);
 	void SetDefaultColor(QPushButton* colorButton, EColor color);
 
-	QString ColorToString(EColor color);
+	QString ColorToString(EColor color) const;
 
 private:
 	bool m_firstShow;

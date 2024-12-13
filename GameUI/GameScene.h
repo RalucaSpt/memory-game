@@ -33,7 +33,11 @@ private:
 	void SetupConnections();
 	void ToggleButtons(bool enable);
 
+	void SaveBestScore();
+	void LoadBestScore();
+
 private:
+	const QString kBestScoreFileName = "BestScore.json";
 	bool m_firstShow;
 	QLCDNumber* m_bestScore;
 	QLCDNumber* m_currentScore;

@@ -1,7 +1,5 @@
 #pragma once
 
-#pragma once
-
 #include <QtWidgets/QFrame>
 #include <QPushButton>
 #include <QComboBox>

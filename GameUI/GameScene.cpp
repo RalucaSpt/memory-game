@@ -1,4 +1,7 @@
 #include "GameScene.h"
+#include <QFile>
+#include <QJsonDocument>
+#include <QJsonObject>
 
 GameScene::GameScene(QWidget* parent) :
 	QWidget(parent),
@@ -7,7 +10,11 @@ GameScene::GameScene(QWidget* parent) :
 	m_currentScore{ new QLCDNumber() },
 	m_colorsFrame{ new ColorsFrame() },
 	m_gameListener(std::shared_ptr<GameListener>(new GameListener())),
-	m_resultLabel { new QLabel() }
+	m_resultLabel { new QLabel() },
+	m_undoButton{ new QPushButton() },
+	m_backToMainMenuButton { new QPushButton() },
+	m_confirmSequenceButton{ new QPushButton() },
+	m_historyFrame { new HistoryFrame() }
 {
 }
 
@@ -35,6 +42,7 @@ void GameScene::OnNewGameStarted(EDifficulty difficulty)
 	m_game = IGame::Produce(difficulty);
 	m_game->Subscribe(m_gameListener);
 	m_game->StartGame();
+	LoadBestScore();
 	m_colorsFrame->AddButtonsAccordingToDifficulty(difficulty);
 	m_resultLabel->clear();
 	ToggleButtons(true);
@@ -63,6 +71,7 @@ void GameScene::SetupConnections()
 		{
 			m_game->StopGame();
 			m_currentScore->display(0);
+			SaveBestScore();
 			emit BackToMainMenuButtonPressed();
 		});
 }
@@ -74,9 +83,50 @@ void GameScene::ToggleButtons(bool enable)
 	m_undoButton->setEnabled(enable);
 }
 
+void GameScene::SaveBestScore() {
+	QFile file(kBestScoreFileName);
+	if (!file.open(QIODevice::WriteOnly)) {
+		qWarning("Could not open best score file for writing.");
+		return;
+	}
+
+	QJsonObject json;
+	json["bestScore"] = m_bestScore->intValue();
+
+	QJsonDocument doc(json);
+	file.write(doc.toJson());
+	file.close();
+}
+
+void GameScene::LoadBestScore()
+{
+	QFile file(kBestScoreFileName);
+	if (!file.open(QIODevice::ReadOnly)) {
+		qWarning("Best score file not found, starting with default best score.");
+		m_bestScore->display(0);
+		return;
+	}
+
+	QByteArray data = file.readAll();
+	QJsonDocument doc = QJsonDocument::fromJson(data);
+
+	if (doc.isObject()) {
+		QJsonObject json = doc.object();
+		if (json.contains("bestScore") && json["bestScore"].isDouble()) {
+			int bestScore = json["bestScore"].toInt();
+			m_bestScore->display(bestScore);
+		}
+	}
+
+	file.close();
+}
+
 void GameScene::OnScoreUpdated(int score)
 {
 	m_currentScore->display(score);
+	if (m_currentScore->intValue() > m_bestScore->intValue()) {
+		m_bestScore->display(m_currentScore->intValue());
+	}
 }
 
 void GameScene::OnGameEnded()
