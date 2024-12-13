@@ -32,6 +32,7 @@ private slots:
 private:
 	void SetupConnections();
 	void ToggleButtons(bool enable);
+	void ToggleEndOfDisplayingSequence(bool isFinished);
 
 	void SaveBestScore();
 	void LoadBestScore();
@@ -39,12 +40,15 @@ private:
 private:
 	const QString kBestScoreFileName = "BestScore.json";
 	bool m_firstShow;
+	bool m_firstColorReceived;
 	QLCDNumber* m_bestScore;
 	QLCDNumber* m_currentScore;
 	QPushButton* m_backToMainMenuButton;
 	QPushButton* m_confirmSequenceButton;
 	QPushButton* m_undoButton;
 	QLabel* m_resultLabel;
+	QLabel* m_statusLabel;
+	QString m_statusLabelStyleSheet;
 	ColorsFrame* m_colorsFrame;
 	HistoryFrame* m_historyFrame;
 	std::shared_ptr<GameListener> m_gameListener;

@@ -11,7 +11,7 @@ enum class EColor
 	Yellow,
 	Orange,
 	Purple,
-	Cyan,
+	Teal,
 	Magenta,
 	None
 };

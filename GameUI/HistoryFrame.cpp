@@ -61,7 +61,7 @@ QString HistoryFrame::ColorToString(EColor color)
 	case EColor::Red:     return "red";
 	case EColor::Orange:  return "orange";
 	case EColor::Purple:  return "purple";
-	case EColor::Cyan:    return "cyan";
+	case EColor::Teal:    return "teal";
 	case EColor::Magenta: return "magenta";
 	case EColor::None:    return "none";
 	default:              return "unknown";

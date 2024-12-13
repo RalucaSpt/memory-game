@@ -6,6 +6,7 @@
 GameScene::GameScene(QWidget* parent) :
 	QWidget(parent),
 	m_firstShow{ true },
+	m_firstColorReceived { false },
 	m_bestScore{ new QLCDNumber() },
 	m_currentScore{ new QLCDNumber() },
 	m_colorsFrame{ new ColorsFrame() },
@@ -16,6 +17,9 @@ GameScene::GameScene(QWidget* parent) :
 	m_confirmSequenceButton{ new QPushButton() },
 	m_historyFrame { new HistoryFrame() }
 {
+	m_statusLabelStyleSheet = QString(
+		"background-color: %1;"
+		"border-radius: 35px;");
 }
 
 void GameScene::showEvent(QShowEvent* event)
@@ -25,6 +29,7 @@ void GameScene::showEvent(QShowEvent* event)
 		m_bestScore = findChild<QLCDNumber*>("bestScore");
 		m_currentScore = findChild<QLCDNumber*>("currentScore");
 		m_resultLabel = findChild<QLabel*>("resultLabel");
+		m_statusLabel = findChild<QLabel*>("statusLabel");
 		m_colorsFrame = findChild<ColorsFrame*>("colorsFrame");
 		m_historyFrame = findChild<HistoryFrame*>("historyFrame");
 		m_backToMainMenuButton = findChild<QPushButton*>("mainMenuButton");
@@ -46,12 +51,23 @@ void GameScene::OnNewGameStarted(EDifficulty difficulty)
 	m_colorsFrame->AddButtonsAccordingToDifficulty(difficulty);
 	m_resultLabel->clear();
 	ToggleButtons(true);
+	//ToggleEndOfDisplayingSequence(false);
 }
 
 void GameScene::SetupConnections()
 {
-	QObject::connect(m_gameListener.get(), &GameListener::ColorReceived, m_colorsFrame, &ColorsFrame::OnColorReceived);
-	QObject::connect(m_gameListener.get(), &GameListener::SequenceEnded, m_colorsFrame, &ColorsFrame::OnSequenceEnded);
+	QObject::connect(m_gameListener.get(), &GameListener::ColorReceived, this, [this](EColor colorReceived) {
+			if (!m_firstColorReceived) {
+				ToggleEndOfDisplayingSequence(false);
+				m_firstColorReceived = true;
+			}
+			QMetaObject::invokeMethod(m_colorsFrame, "OnColorReceived", Qt::QueuedConnection, Q_ARG(EColor, colorReceived));
+		});
+	QObject::connect(m_gameListener.get(), &GameListener::SequenceEnded, this, [this]() {
+			m_firstColorReceived = false;
+			ToggleEndOfDisplayingSequence(true);
+			QMetaObject::invokeMethod(m_colorsFrame, "OnSequenceEnded", Qt::QueuedConnection);
+		});
 	QObject::connect(m_gameListener.get(), &GameListener::ScoreChanged, this, &GameScene::OnScoreUpdated);
 	QObject::connect(m_gameListener.get(), &GameListener::RoundEnded, m_historyFrame, &HistoryFrame::OnRoundEnded);
 	QObject::connect(m_gameListener.get(), &GameListener::GameEnded, this, &GameScene::OnGameEnded);
@@ -81,6 +97,14 @@ void GameScene::ToggleButtons(bool enable)
 	m_confirmSequenceButton->setEnabled(enable);
 	m_colorsFrame->setEnabled(enable);
 	m_undoButton->setEnabled(enable);
+	ToggleEndOfDisplayingSequence(enable);
+}
+
+void GameScene::ToggleEndOfDisplayingSequence(bool isFinished)
+{
+	QString color = isFinished ? "green" : "red";
+	m_statusLabel->setStyleSheet(m_statusLabelStyleSheet.arg(color));
+	update();
 }
 
 void GameScene::SaveBestScore() {
