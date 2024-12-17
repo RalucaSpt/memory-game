@@ -51,7 +51,7 @@ void GameScene::OnNewGameStarted(EDifficulty difficulty)
 	m_colorsFrame->AddButtonsAccordingToDifficulty(difficulty);
 	m_resultLabel->clear();
 	ToggleButtons(true);
-	//ToggleEndOfDisplayingSequence(false);
+	ToggleEndOfDisplayingSequence(false);
 }
 
 void GameScene::SetupConnections()

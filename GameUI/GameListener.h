@@ -1,7 +1,6 @@
 #pragma once
 
 #include "IGameListener.h"
-#include <iostream>
 #include <QObject>
 
 class GameListener : public QObject, public IGameListener

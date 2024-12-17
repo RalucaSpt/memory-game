@@ -1,6 +1,4 @@
 ﻿#include "GameUI.h"
-#include <QThread>
-#include <QTimer>
 
 GameUI::GameUI(QWidget* parent)
 	: QMainWindow(parent)
