@@ -106,7 +106,7 @@ void ColorsFrame::RemoveButtons()
 void ColorsFrame::HighlightColor(QPushButton* colorButton, EColor color)
 {
 	QColor baseColor(ColorToString(color));
-	QColor hightlightColor = baseColor.lighter(150);
+	QColor hightlightColor = baseColor.lighter(200);
 	QString styleSheet = QString(
 		"QPushButton {"
 		"    background-color: %1;"
@@ -145,7 +145,7 @@ void ColorsFrame::SetDefaultColor(QPushButton* colorButton, EColor color)
 	colorButton->setStyleSheet(styleSheet);
 }
 
-QString ColorsFrame::ColorToString(EColor color)
+QString ColorsFrame::ColorToString(EColor color) const
 {
 	switch (color) {
 		case EColor::Blue:    return "blue";
@@ -154,7 +154,7 @@ QString ColorsFrame::ColorToString(EColor color)
 		case EColor::Red:     return "red";
 		case EColor::Orange:  return "orange";
 		case EColor::Purple:  return "purple";
-		case EColor::Cyan:    return "cyan";
+		case EColor::Teal:    return "teal";
 		case EColor::Magenta: return "magenta";
 		case EColor::None:    return "none";
 		default:              return "unknown";

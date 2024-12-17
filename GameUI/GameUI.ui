@@ -42,14 +42,14 @@ background-position: center;
       </property>
       <property name="minimumSize">
        <size>
-        <width>400</width>
-        <height>50</height>
+        <width>450</width>
+        <height>100</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
-        <width>600</width>
-        <height>500</height>
+        <width>650</width>
+        <height>600</height>
        </size>
       </property>
       <property name="font">
@@ -367,6 +367,9 @@ background-position: center;
           </item>
           <item>
            <widget class="ColorsFrame" name="colorsFrame">
+            <property name="frameShape">
+             <enum>QFrame::Shape::NoFrame</enum>
+            </property>
             <layout class="QGridLayout" name="gridLayout">
              <property name="rightMargin">
               <number>1</number>
@@ -387,6 +390,9 @@ background-position: center;
             <pointsize>16</pointsize>
            </font>
           </property>
+          <property name="frameShape">
+           <enum>QFrame::Shape::NoFrame</enum>
+          </property>
           <property name="lineWidth">
            <number>3</number>
           </property>
@@ -402,7 +408,7 @@ background-position: center;
          </widget>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <layout class="QHBoxLayout" name="buttonsLayout">
           <item>
            <widget class="QPushButton" name="mainMenuButton">
             <property name="maximumSize">
@@ -460,6 +466,9 @@ background-position: center;
               <width>150</width>
               <height>50</height>
              </size>
+            </property>
+            <property name="cursor">
+             <cursorShape>PointingHandCursor</cursorShape>
             </property>
             <property name="focusPolicy">
              <enum>Qt::FocusPolicy::NoFocus</enum>
@@ -606,22 +615,55 @@ background-position: center;
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="resultLabel">
-          <property name="font">
-           <font>
-            <pointsize>20</pointsize>
-           </font>
-          </property>
-          <property name="styleSheet">
-           <string notr="true">background-color: transparent;</string>
-          </property>
-          <property name="text">
-           <string/>
-          </property>
-          <property name="alignment">
-           <set>Qt::AlignmentFlag::AlignCenter</set>
-          </property>
-         </widget>
+         <layout class="QHBoxLayout" name="informationLayout">
+          <item>
+           <widget class="QLabel" name="resultLabel">
+            <property name="font">
+             <font>
+              <pointsize>20</pointsize>
+             </font>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: transparent;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+            <property name="alignment">
+             <set>Qt::AlignmentFlag::AlignCenter</set>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLabel" name="statusLabel">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>70</width>
+              <height>70</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>70</width>
+              <height>70</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">background-color: red;
+border-radius: 35px;</string>
+            </property>
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </item>
        </layout>
       </widget>
