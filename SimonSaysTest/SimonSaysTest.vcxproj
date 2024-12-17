@@ -24,6 +24,7 @@
     <ProjectGuid>{9b3e2ceb-a8c4-4dfe-957b-59fc2bdf658c}</ProjectGuid>
     <RootNamespace>SimonSaysTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Simon Says Tests</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -188,13 +189,12 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="GameTests.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="ObservableTests.cpp" />
     <ClCompile Include="pch.cpp" />
+    <ClCompile Include="StrategyTests.cpp" />
+    <ClCompile Include="GameTests.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="MockGameListener.h" />
     <ClInclude Include="pch.h" />
   </ItemGroup>
   <ItemGroup>

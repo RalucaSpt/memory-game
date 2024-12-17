@@ -24,6 +24,7 @@
     <ProjectGuid>{a54ee23c-606c-4b20-af34-db7dc40c9568}</ProjectGuid>
     <RootNamespace>GameLogic</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Simon Says Logic</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">

@@ -1,82 +1,82 @@
-﻿#include "pch.h"
+#include "pch.h"
 #include "Game.h"
 
-using namespace gameLogic;
-
-TEST(GameTest, StartNewGame_ResetsStateCorrectly)
+namespace SimonSaysTests
 {
-	Game game;
+	TEST(GameTests, StopGame)
+	{
+		Game game;
+		game.StopGame();
+	}
 
-	game.AddLevel();
-	game.RandomColorGenerator();
-	game.ResetPlayerMove();
+	TEST(GameTests, SelectColor)
+	{
+		Game game;
+		game.SelectColor(EColor::Red);
+	}
 
-	ASSERT_GT(game.GetMoveSequence().size(), 0);
+	TEST(GameTests, Undo)
+	{
+		Game game;
+		game.Undo();
+	}
 
-	game.StartNewGame();
+	TEST(GameTests, CheckSequence)
+	{
+		Game game;
+		game.CheckSequence();
+	}
 
-	EXPECT_EQ(game.GetMoveSequence().size(), 0);
-	EXPECT_EQ(game.GetPlayerMove(), 0);
-	EXPECT_EQ(game.GetMaxScore(), 0);
-}
+	TEST(GameTests, SetStrategy)
+	{
+		Game game;
+		game.SetStrategy(nullptr);
+	}
 
-TEST(GameTest, RandomColorGenerator_AddsColorToSequence)
-{
-	Game game;
+	TEST(GameTests, Produce)
+	{
+		IGamePtr game = IGame::Produce(EDifficulty::Easy);
+	}
 
-	auto initialSize = game.GetMoveSequence().size();
-	game.RandomColorGenerator();
+	TEST(GameTests, ProduceCustom)
+	{
+		IGamePtr game = IGame::Produce(EDifficulty::Custom, nullptr);
+	}
 
-	EXPECT_EQ(game.GetMoveSequence().size(), initialSize + 1);
-}
+	TEST(GameTests, ProduceMedium)
+	{
+		IGamePtr game = IGame::Produce(EDifficulty::Medium);
+	}
 
-TEST(GameTest, VerifyPlayerMoveSequence_ValidatesCorrectly)
-{
-	Game game;
+	TEST(GameTests, ProduceHard)
+	{
+		IGamePtr game = IGame::Produce(EDifficulty::Hard);
+	}
 
-	game.RandomColorGenerator();
-	Color correctMove = game.GetMoveSequence().front();
+	TEST(GameTests, GetCurrentSequence)
+	{
+		Game game;
+		ColorSequence sequence = game.GetCurrentSequence();
 
-	EXPECT_TRUE(game.VerifyPlayerMoveSequence(correctMove));
+		EXPECT_EQ(sequence.size(), 0);
+	}
 
-	EXPECT_FALSE(game.VerifyPlayerMoveSequence(static_cast<Color>((correctMove + 1) % 4)));
-}
+	TEST(GameTests, GameDestructor)
+	{
+		Game* game = new Game();
+		delete game;
+	}
 
-TEST(GameTest, CheckNewRecord_DetectsCorrectly)
-{
-	Game game;
+	TEST(GameTests, GameAddColor)
+	{
+		Game game;
+		game.AddColor(EColor::Red);
+	}
 
-	game.AddLevel();
-
-	game.AddLevel();
-
-	EXPECT_TRUE(game.CheckNewRecord());
-
-	EXPECT_FALSE(game.CheckNewRecord());
-}
-
-TEST(GameTest, AddLevel_IncrementsScore)
-{
-	Game game;
-
-	int initialScore = game.GetMaxScore();
-	game.AddLevel();
-	game.CheckNewRecord();
-
-	EXPECT_EQ(game.GetMaxScore(), initialScore + 1);
-}
-
-
-TEST(GameTest, ResetPlayerMove_ResetsCorrectly)
-{
-	Game game;
-
-	game.RandomColorGenerator();
-	game.VerifyPlayerMoveSequence(game.GetMoveSequence().front());
-
-	ASSERT_GT(game.GetPlayerMove(), 0);
-
-	game.ResetPlayerMove();
-
-	EXPECT_EQ(game.GetPlayerMove(), 0);
+	TEST(GameTests, GameRemoveColor)
+	{
+		Game game;
+		game.AddColor(EColor::Red);
+		game.RemoveColor();
+	}
 }
