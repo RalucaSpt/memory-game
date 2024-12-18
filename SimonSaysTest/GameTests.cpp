@@ -3,6 +3,21 @@
 
 namespace SimonSaysTests
 {
+	class MockGame : public IGame
+	{
+	public:
+		MOCK_METHOD(void, StartGame, (), (override));
+		MOCK_METHOD(void, StopGame, (), (override));
+		MOCK_METHOD(void, SelectColor, (EColor color), (override));
+		MOCK_METHOD(void, Undo, (), (override));
+		MOCK_METHOD(void, CheckSequence, (), (override));
+		MOCK_METHOD(void, SetStrategy, (StrategyPtr strategy), (override));
+		MOCK_METHOD(ColorSequence, GetCurrentSequence, (), (override));
+		MOCK_METHOD(void, Subscribe, (GameListenerWeakPtr listener), (override));
+		MOCK_METHOD(void, Unsubscribe, (GameListenerWeakPtr listener), (override));
+	};
+
+
 	TEST(GameTests, StopGame)
 	{
 		Game game;
@@ -79,4 +94,31 @@ namespace SimonSaysTests
 		game.AddColor(EColor::Red);
 		game.RemoveColor();
 	}
+
+	TEST(GameTests, MockStopGame)
+	{
+		MockGame mockGame;
+		EXPECT_CALL(mockGame, StopGame()).Times(1);
+
+		mockGame.StopGame();
+	}
+
+	TEST(GameTests, MockSelectColor)
+	{
+		MockGame mockGame;
+		EXPECT_CALL(mockGame, SelectColor(EColor::Red)).Times(1);
+
+		mockGame.SelectColor(EColor::Red);
+	}
+
+	TEST(GameTests, MockGetCurrentSequence)
+	{
+		MockGame mockGame;
+		ColorSequence expectedSequence = { EColor::Red, EColor::Green };
+		EXPECT_CALL(mockGame, GetCurrentSequence()).WillOnce(testing::Return(expectedSequence));
+
+		ColorSequence sequence = mockGame.GetCurrentSequence();
+		EXPECT_EQ(sequence, expectedSequence);
+	}
+
 }
